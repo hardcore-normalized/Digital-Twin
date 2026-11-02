@@ -1,0 +1,90 @@
+<!doctype html>
+<html
+  lang="en"
+  data-composition-variables='[
+    {"id":"color-ground","type":"color","label":"Background","default":"#f7f5f0"},
+    {"id":"color-card","type":"color","label":"Card","default":"#ffffff"},
+    {"id":"color-border","type":"color","label":"Border","default":"#e5e1d6"},
+    {"id":"color-ink","type":"color","label":"Text","default":"#1f1e1b"},
+    {"id":"color-ink-2","type":"color","label":"Secondary text","default":"#57544d"},
+    {"id":"color-ink-3","type":"color","label":"Muted text","default":"#77736a"},
+    {"id":"color-accent","type":"color","label":"Accent","default":"#b9532f"},
+    {"id":"color-accent-soft","type":"color","label":"Accent tint","default":"#f6e7df"},
+    {"id":"color-chat","type":"color","label":"Chart: Chat","default":"#2a78d6"},
+    {"id":"color-code","type":"color","label":"Chart: Claude Code","default":"#eb6834"},
+    {"id":"color-cowork","type":"color","label":"Chart: Cowork","default":"#1baf7a"}
+  ]'
+>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=1920, height=1080" />
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.14.2/dist/gsap.min.js"></script>
+    <style>
+      @font-face {
+        font-family: "Source Serif 4";
+        src: url("assets/fonts/SourceSerif4-latin.woff2") format("woff2");
+        font-weight: 200 900;
+      }
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+      html,
+      body {
+        margin: 0;
+        width: 1920px;
+        height: 1080px;
+        overflow: hidden;
+        background: var(--color-ground);
+      }
+      #main {
+        width: 100%;
+        height: 100%;
+        font-family: Inter;
+        color: var(--color-ink);
+      }
+      #ground {
+        position: absolute;
+        inset: 0;
+        background: var(--color-ground);
+      }
+    </style>
+  </head>
+  <body>
+    <div id="main" data-composition-id="main" data-start="0" data-duration="38" data-width="1920" data-height="1080">
+      <div id="ground"></div>
+      <div id="hook" data-composition-id="hook" data-composition-src="compositions/hook.html"
+           data-start="0" data-duration="4" data-track-index="1" data-track-kind="graphics"
+           data-width="1920" data-height="1080"></div>
+      <div id="what" data-composition-id="what" data-composition-src="compositions/what.html"
+           data-start="4" data-duration="6" data-track-index="1" data-track-kind="graphics"
+           data-width="1920" data-height="1080"></div>
+      <div id="twins" data-composition-id="twins" data-composition-src="compositions/twins.html"
+           data-start="10" data-duration="4" data-track-index="1" data-track-kind="graphics"
+           data-width="1920" data-height="1080"></div>
+      <div id="ask" data-composition-id="ask" data-composition-src="compositions/ask.html"
+           data-start="14" data-duration="6" data-track-index="1" data-track-kind="graphics"
+           data-width="1920" data-height="1080"></div>
+      <div id="audit" data-composition-id="audit" data-composition-src="compositions/audit.html"
+           data-start="20" data-duration="4" data-track-index="1" data-track-kind="graphics"
+           data-width="1920" data-height="1080"></div>
+      <div id="dashboard" data-composition-id="dashboard" data-composition-src="compositions/dashboard.html"
+           data-start="24" data-duration="4" data-track-index="1" data-track-kind="graphics"
+           data-width="1920" data-height="1080"></div>
+      <div id="seats" data-composition-id="seats" data-composition-src="compositions/seats.html"
+           data-start="28" data-duration="4" data-track-index="1" data-track-kind="graphics"
+           data-width="1920" data-height="1080"></div>
+      <div id="outro" data-composition-id="outro" data-composition-src="compositions/outro.html"
+           data-start="32" data-duration="6" data-track-index="1" data-track-kind="graphics"
+           data-width="1920" data-height="1080"></div>
+      <!-- Lo-fi house bed generated with ACE-Step 1.5 (120 BPM, A minor). -->
+      <audio id="music" class="clip" src="assets/music/lofi-house.mp3" data-timeline-role="music"
+             data-start="0" data-duration="38" data-media-start="0.045" data-track-index="2"
+             data-volume="0.8" data-fade-in="0.4" data-fade-out="2"></audio>
+    </div>
+    <script>
+      window.__timelines["main"] = gsap.timeline({ paused: true });
+    </script>
+  </body>
+</html>

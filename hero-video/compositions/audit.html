@@ -1,0 +1,170 @@
+<template>
+  <style>
+    @font-face {
+      font-family: "Source Serif 4";
+      src: url("assets/fonts/SourceSerif4-latin.woff2") format("woff2");
+      font-weight: 200 900;
+    }
+    #root {
+      position: absolute;
+      inset: 0;
+    }
+    #s5a-stage {
+      position: absolute;
+      inset: 0;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      padding: 0 160px;
+      font-family: Inter;
+      color: var(--color-ink);
+    }
+    #s5a-kicker {
+      font-size: 30px;
+      font-weight: 600;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--color-accent);
+    }
+    #s5a-title {
+      margin-top: 18px;
+      font-family: "Source Serif 4";
+      font-weight: 500;
+      font-size: 80px;
+      letter-spacing: -0.02em;
+      line-height: 1;
+    }
+    #s5a-title .w {
+      display: inline-block;
+    }
+    #s5a-card {
+      margin-top: 60px;
+      width: 1600px;
+      background: var(--color-card);
+      border: 2px solid var(--color-border);
+      border-radius: 28px;
+      box-shadow: 0 40px 80px -48px rgba(60, 40, 20, 0.35);
+      overflow: hidden;
+    }
+    #s5a-head {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 26px 40px;
+      border-bottom: 2px solid var(--color-border);
+    }
+    #s5a-file {
+      font-family: "JetBrains Mono";
+      font-size: 34px;
+      font-weight: 600;
+    }
+    #s5a-visible {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 10px 20px;
+      border-radius: 12px;
+      background: #e3f1e8;
+      color: #23663e;
+      font-size: 30px;
+      font-weight: 600;
+    }
+    #s5a-rows {
+      padding: 14px 0 18px;
+    }
+    .s5a-row {
+      display: grid;
+      grid-template-columns: 260px 300px 1fr;
+      align-items: center;
+      padding: 18px 40px;
+      font-size: 32px;
+    }
+    .s5a-time {
+      color: var(--color-ink-3);
+      font-variant-numeric: tabular-nums;
+    }
+    .s5a-who {
+      font-weight: 600;
+    }
+    .s5a-what {
+      color: var(--color-ink-2);
+    }
+    #s5a-new {
+      position: relative;
+    }
+    #s5a-hl {
+      position: absolute;
+      inset: 4px 16px;
+      border-radius: 16px;
+      background: var(--color-accent-soft);
+      z-index: 0;
+    }
+    #s5a-new > :not(#s5a-hl) {
+      position: relative;
+      z-index: 1;
+    }
+    #s5a-new .s5a-what {
+      color: var(--color-ink);
+    }
+  </style>
+
+  <div id="root" data-composition-id="audit" data-width="1920" data-height="1080">
+    <div id="s5a-stage" class="clip" data-start="0" data-duration="4">
+      <div id="s5a-kicker">Digital twins</div>
+      <h2 id="s5a-title">
+        <span class="w">Every</span> <span class="w">question</span> <span class="w">is</span> <span class="w">logged.</span>
+        <span class="w">Priya</span> <span class="w">can</span> <span class="w">see</span> <span class="w">it.</span>
+      </h2>
+      <div id="s5a-card">
+        <div id="s5a-head">
+          <div id="s5a-file">AUDIT_LOG.md</div>
+          <div id="s5a-visible">
+            <svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="#23663e" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7S2 12 2 12Z" /><circle cx="12" cy="12" r="3" /></svg>
+            Visible to Priya
+          </div>
+        </div>
+        <div id="s5a-rows" data-layout-allow-overlap>
+          <div class="s5a-row" id="s5a-new">
+            <div id="s5a-hl"></div>
+            <div class="s5a-time">Oct 28, 10:02</div>
+            <div class="s5a-who">Ravi (admin)</div>
+            <div class="s5a-what">asked: &ldquo;What has Priya been working on?&rdquo;</div>
+          </div>
+          <div class="s5a-row" id="s5a-r2">
+            <div class="s5a-time">Oct 27, 13:40</div>
+            <div class="s5a-who">System</div>
+            <div class="s5a-what">usage spike flagged: $73 in a day</div>
+          </div>
+          <div class="s5a-row" id="s5a-r3">
+            <div class="s5a-time">Oct 26, 09:14</div>
+            <div class="s5a-who">Priya</div>
+            <div class="s5a-what">edited ABOUT.md</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const tl = gsap.timeline({ paused: true });
+
+    tl.fromTo("#s5a-kicker", { opacity: 0, y: 8 }, { opacity: 1, y: 0, duration: 0.2, ease: "power3.out" }, 0.05);
+    tl.fromTo(
+      "#s5a-title .w",
+      { opacity: 0, y: 14, filter: "blur(6px)" },
+      { opacity: 1, y: 0, filter: "blur(0px)", duration: 0.16, ease: "power3.out", stagger: 0.06 },
+      0.1,
+    );
+    tl.fromTo("#s5a-card", { opacity: 0, y: 60 }, { opacity: 1, y: 0, duration: 0.6, ease: "power3.out" }, 0.25);
+
+    // The question that was just asked lands at the top of the log.
+    tl.fromTo("#s5a-new", { opacity: 0, y: -24 }, { opacity: 1, y: 0, duration: 0.4, ease: "power3.out" }, 0.95);
+    tl.fromTo("#s5a-hl", { opacity: 0 }, { opacity: 1, duration: 0.35, ease: "power2.out" }, 1.2);
+    tl.fromTo(["#s5a-r2", "#s5a-r3"], { y: -40 }, { y: 0, duration: 0.4, ease: "power3.out" }, 0.95);
+    tl.fromTo("#s5a-visible", { opacity: 0, scale: 0.9 }, { opacity: 1, scale: 1, duration: 0.3, ease: "power3.out" }, 1.55);
+
+    tl.to(["#s5a-kicker", "#s5a-title", "#s5a-card"], { opacity: 0, y: -18, filter: "blur(8px)", duration: 0.22, ease: "power2.in", stagger: 0.025 }, 3.72);
+
+    window.__timelines["audit"] = tl;
+  </script>
+</template>

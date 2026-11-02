@@ -1,0 +1,114 @@
+<template>
+  <style>
+    @font-face {
+      font-family: "Source Serif 4";
+      src: url("assets/fonts/SourceSerif4-latin.woff2") format("woff2");
+      font-weight: 200 900;
+    }
+    #root {
+      position: absolute;
+      inset: 0;
+    }
+    #s0-stage {
+      position: absolute;
+      inset: 0;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      font-family: Inter;
+      color: var(--color-ink);
+    }
+    #s0-pair {
+      position: relative;
+      width: 330px;
+      height: 200px;
+    }
+    #s0-person,
+    #s0-twin {
+      position: absolute;
+      top: 0;
+      left: 65px;
+      width: 200px;
+      height: 200px;
+      border-radius: 50%;
+    }
+    #s0-person {
+      z-index: 2;
+      background: #8a5cc2;
+      color: #ffffff;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 72px;
+      font-weight: 600;
+    }
+    #s0-twin {
+      z-index: 1;
+      border: 8px solid var(--color-ink);
+    }
+    #s0-kicker {
+      margin-top: 64px;
+      font-size: 30px;
+      font-weight: 600;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--color-accent);
+    }
+    #s0-title {
+      margin-top: 20px;
+      font-family: "Source Serif 4";
+      font-weight: 500;
+      font-size: 112px;
+      letter-spacing: -0.02em;
+      line-height: 1.04;
+      text-align: center;
+    }
+    #s0-title .w {
+      display: inline-block;
+    }
+    #s0-sub {
+      margin-top: 28px;
+      font-size: 44px;
+      color: var(--color-ink-2);
+    }
+  </style>
+
+  <div id="root" data-composition-id="hook" data-width="1920" data-height="1080">
+    <div id="s0-stage" class="clip" data-start="0" data-duration="4">
+      <div id="s0-pair">
+        <div id="s0-twin"></div>
+        <div id="s0-person">PS</div>
+      </div>
+      <div id="s0-kicker">Introducing Digital Twin</div>
+      <h1 id="s0-title">
+        <span class="w">Meet</span> <span class="w">your</span> <span class="w">team&rsquo;s</span>
+        <span class="w">digital</span> <span class="w">twins.</span>
+      </h1>
+      <p id="s0-sub" data-var-text="hook-sub">A living, askable profile of each person&rsquo;s work.</p>
+    </div>
+  </div>
+
+  <script>
+    const tl = gsap.timeline({ paused: true });
+
+    // A person arrives...
+    tl.fromTo("#s0-person", { opacity: 0, scale: 0.8 }, { opacity: 1, scale: 1, duration: 0.5, ease: "power3.out" }, 0.15);
+    // ...and their twin slides out from behind them.
+    tl.fromTo("#s0-twin", { x: 0, opacity: 0 }, { x: 65, opacity: 1, duration: 0.6, ease: "power3.inOut" }, 0.55);
+    tl.fromTo("#s0-person", { x: 0 }, { x: -65, duration: 0.6, ease: "power3.inOut" }, 0.55);
+
+    tl.fromTo("#s0-kicker", { opacity: 0, y: 8 }, { opacity: 1, y: 0, duration: 0.2, ease: "power3.out" }, 0.85);
+    tl.fromTo(
+      "#s0-title .w",
+      { opacity: 0, y: 14, filter: "blur(6px)" },
+      { opacity: 1, y: 0, filter: "blur(0px)", duration: 0.16, ease: "power3.out", stagger: 0.067 },
+      0.95,
+    );
+    tl.fromTo("#s0-sub", { opacity: 0, y: 10, filter: "blur(6px)" }, { opacity: 1, y: 0, filter: "blur(0px)", duration: 0.22, ease: "power3.out" }, 1.45);
+
+    tl.to(["#s0-pair", "#s0-kicker", "#s0-title", "#s0-sub"], { opacity: 0, y: -18, filter: "blur(8px)", duration: 0.22, ease: "power2.in", stagger: 0.025 }, 3.7);
+
+    window.__timelines["hook"] = tl;
+  </script>
+</template>

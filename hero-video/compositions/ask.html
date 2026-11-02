@@ -1,0 +1,215 @@
+<template>
+  <style>
+    @font-face {
+      font-family: "Source Serif 4";
+      src: url("assets/fonts/SourceSerif4-latin.woff2") format("woff2");
+      font-weight: 200 900;
+    }
+    #root {
+      position: absolute;
+      inset: 0;
+    }
+    #s4-stage {
+      position: absolute;
+      inset: 0;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      gap: 60px;
+      padding: 0 160px;
+      font-family: Inter;
+      color: var(--color-ink);
+    }
+    #s4-kicker {
+      font-size: 30px;
+      font-weight: 600;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--color-accent);
+      margin-bottom: 18px;
+    }
+    #s4-title {
+      font-family: "Source Serif 4";
+      font-weight: 500;
+      font-size: 80px;
+      letter-spacing: -0.02em;
+      line-height: 1;
+    }
+    #s4-title .w {
+      display: inline-block;
+    }
+    #s4-window {
+      position: relative;
+      width: 1600px;
+      background: var(--color-card);
+      border: 2px solid var(--color-border);
+      border-radius: 28px;
+      box-shadow: 0 40px 80px -48px rgba(60, 40, 20, 0.35);
+      overflow: hidden;
+    }
+    #s4-head {
+      display: flex;
+      align-items: center;
+      gap: 20px;
+      padding: 26px 40px;
+      border-bottom: 2px solid var(--color-border);
+    }
+    #s4-mini {
+      width: 60px;
+      height: 60px;
+      border-radius: 50%;
+      background: #8a5cc2;
+      color: #ffffff;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 28px;
+      font-weight: 600;
+    }
+    #s4-who {
+      font-size: 34px;
+      font-weight: 600;
+    }
+    #s4-logged {
+      margin-left: auto;
+      padding: 10px 20px;
+      border-radius: 12px;
+      background: var(--color-accent-soft);
+      color: var(--color-accent);
+      font-size: 28px;
+      font-weight: 600;
+    }
+    #s4-body {
+      position: relative;
+      padding: 44px 52px 60px;
+    }
+    #s4-q-row {
+      display: flex;
+      justify-content: flex-end;
+    }
+    #s4-q {
+      padding: 22px 34px;
+      border-radius: 32px 32px 8px 32px;
+      background: #efebe2;
+      font-size: 44px;
+    }
+    #s4-q-text {
+      display: inline-block;
+    }
+    #s4-status {
+      position: absolute;
+      left: 52px;
+      top: 190px;
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      font-size: 34px;
+      color: var(--color-ink-3);
+    }
+    #s4-spin {
+      width: 30px;
+      height: 30px;
+      border-radius: 50%;
+      border: 4px solid #d6d1c4;
+      border-top-color: var(--color-ink-3);
+    }
+    #s4-answer {
+      margin-top: 60px;
+    }
+    #s4-lead {
+      font-size: 46px;
+      font-weight: 500;
+    }
+    .s4-point {
+      margin-top: 30px;
+      display: flex;
+      align-items: center;
+      gap: 22px;
+      font-size: 42px;
+      color: var(--color-ink);
+    }
+    .s4-point::before {
+      content: "";
+      width: 12px;
+      height: 12px;
+      border-radius: 50%;
+      background: var(--color-ink-3);
+      flex: none;
+    }
+    .s4-src {
+      padding: 6px 18px;
+      border-radius: 12px;
+      border: 2px solid var(--color-border);
+      background: var(--color-ground);
+      color: var(--color-ink-2);
+      font-size: 32px;
+      white-space: nowrap;
+    }
+  </style>
+
+  <div id="root" data-composition-id="ask" data-width="1920" data-height="1080">
+    <div id="s4-stage" class="clip" data-start="0" data-duration="6">
+      <div id="s4-headtext">
+      <div id="s4-kicker">Digital twins</div>
+      <h2 id="s4-title">
+        <span class="w">Ask</span> <span class="w">the</span> <span class="w">twin.</span> <span class="w">Answers</span>
+        <span class="w">cite</span> <span class="w">sources.</span>
+      </h2>
+      </div>
+      <div id="s4-window">
+        <div id="s4-head">
+          <div id="s4-mini">PS</div>
+          <div id="s4-who">Priya&rsquo;s twin</div>
+          <div id="s4-logged">Every question is logged for Priya</div>
+        </div>
+        <div id="s4-body" data-layout-allow-overlap>
+          <div id="s4-q-row">
+            <div id="s4-q"><span id="s4-q-text">What has Priya been working on this week?</span></div>
+          </div>
+          <div id="s4-status"><div id="s4-spin"></div>Checking usage data&hellip;</div>
+          <div id="s4-answer">
+            <div id="s4-lead">Priya is finishing the refunds queue migration:</div>
+            <div class="s4-point" id="s4-p1">Load test passed at 3x peak <span class="s4-src">check-in Oct 27</span></div>
+            <div class="s4-point" id="s4-p2">Claude Code: 17 sessions, 9 commits, 2 PRs <span class="s4-src">usage data</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const tl = gsap.timeline({ paused: true });
+
+    tl.fromTo("#s4-kicker", { opacity: 0, y: 8 }, { opacity: 1, y: 0, duration: 0.2, ease: "power3.out" }, 0.02);
+    tl.fromTo(
+      "#s4-title .w",
+      { opacity: 0, y: 14, filter: "blur(6px)" },
+      { opacity: 1, y: 0, filter: "blur(0px)", duration: 0.16, ease: "power3.out", stagger: 0.067 },
+      0.05,
+    );
+
+    // The chat window rises into place.
+    tl.fromTo("#s4-window", { opacity: 0, y: 70 }, { opacity: 1, y: 0, duration: 0.65, ease: "power3.out" }, 0.15);
+
+    // The question is typed.
+    tl.fromTo("#s4-q", { opacity: 0, scale: 0.96 }, { opacity: 1, scale: 1, duration: 0.2, ease: "power2.out" }, 0.62);
+    tl.fromTo("#s4-q-text", { clipPath: "inset(0 100% 0 0)" }, { clipPath: "inset(0 0% 0 0)", duration: 0.85, ease: "steps(41)" }, 0.66);
+
+    // The twin checks the numbers.
+    tl.fromTo("#s4-status", { opacity: 0 }, { opacity: 1, duration: 0.15, ease: "power2.out" }, 1.62);
+    tl.fromTo("#s4-spin", { rotation: 0 }, { rotation: 720, duration: 1.0, ease: "none" }, 1.62);
+    tl.to("#s4-status", { opacity: 0, duration: 0.14, ease: "power2.in" }, 2.66);
+
+    // The answer, with its sources.
+    tl.fromTo(
+      ["#s4-lead", "#s4-p1", "#s4-p2"],
+      { opacity: 0, y: 12, filter: "blur(6px)" },
+      { opacity: 1, y: 0, filter: "blur(0px)", duration: 0.26, ease: "power3.out", stagger: 0.22 },
+      2.8,
+    );
+
+    tl.to(["#s4-headtext", "#s4-window"], { opacity: 0, y: -20, filter: "blur(8px)", duration: 0.24, ease: "power2.in", stagger: 0.03 }, 5.72);
+
+    window.__timelines["ask"] = tl;
+  </script>
+</template>

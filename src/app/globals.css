@@ -1,0 +1,239 @@
+@import "tailwindcss";
+
+/* ── Design tokens ─────────────────────────────────────────────────────────
+   Warm, quiet enterprise-console look. Light + dark from the same roles. */
+:root {
+  color-scheme: light;
+  --bg: #f7f5f0;
+  --sidebar: #efece4;
+  --card: #ffffff;
+  --card-muted: #faf9f6;
+  --border: #e5e1d6;
+  --border-strong: #d6d1c4;
+  --text: #1f1e1b;
+  --text-2: #57544d;
+  --text-3: #8a867c;
+  --accent: #b9532f;
+  --accent-hover: #a2462a;
+  --accent-soft: #f6e7df;
+  --accent-ink: #ffffff;
+  --ok: #2c7a4b;
+  --ok-soft: #e3f1e8;
+  --warn: #9a6a00;
+  --warn-soft: #f8eed3;
+  --danger: #b42318;
+  --danger-soft: #fbe6e3;
+  --focus: #3b6fd6;
+  --grid: #ece8de;
+
+  /* chart series (validated: adjacent CVD ΔE ≥ 8, see dataviz palette) */
+  --series-chat: #2a78d6;
+  --series-code: #eb6834;
+  --series-cowork: #1baf7a;
+  --series-other: #eda100;
+  --series-single: #2a78d6;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:where(:not([data-theme="light"])) {
+    color-scheme: dark;
+    --bg: #1b1a18;
+    --sidebar: #201f1c;
+    --card: #262522;
+    --card-muted: #2b2a26;
+    --border: #3a3833;
+    --border-strong: #4a4740;
+    --text: #edebe5;
+    --text-2: #b6b2a8;
+    --text-3: #868278;
+    --accent: #e08a63;
+    --accent-hover: #ea9a76;
+    --accent-soft: #3d2b22;
+    --accent-ink: #1b1a18;
+    --ok: #6fc28f;
+    --ok-soft: #1f3327;
+    --warn: #e2b44f;
+    --warn-soft: #3a3020;
+    --danger: #f08072;
+    --danger-soft: #3f2420;
+    --focus: #7aa2f0;
+    --grid: #33312c;
+    --series-chat: #3987e5;
+    --series-code: #d95926;
+    --series-cowork: #199e70;
+    --series-other: #c98500;
+    --series-single: #3987e5;
+  }
+}
+:root[data-theme="dark"] {
+  color-scheme: dark;
+  --bg: #1b1a18;
+  --sidebar: #201f1c;
+  --card: #262522;
+  --card-muted: #2b2a26;
+  --border: #3a3833;
+  --border-strong: #4a4740;
+  --text: #edebe5;
+  --text-2: #b6b2a8;
+  --text-3: #868278;
+  --accent: #e08a63;
+  --accent-hover: #ea9a76;
+  --accent-soft: #3d2b22;
+  --accent-ink: #1b1a18;
+  --ok: #6fc28f;
+  --ok-soft: #1f3327;
+  --warn: #e2b44f;
+  --warn-soft: #3a3020;
+  --danger: #f08072;
+  --danger-soft: #3f2420;
+  --focus: #7aa2f0;
+  --grid: #33312c;
+  --series-chat: #3987e5;
+  --series-code: #d95926;
+  --series-cowork: #199e70;
+  --series-other: #c98500;
+  --series-single: #3987e5;
+}
+
+@theme inline {
+  --color-bg: var(--bg);
+  --color-sidebar: var(--sidebar);
+  --color-card: var(--card);
+  --color-card-muted: var(--card-muted);
+  --color-border: var(--border);
+  --color-border-strong: var(--border-strong);
+  --color-text: var(--text);
+  --color-text-2: var(--text-2);
+  --color-text-3: var(--text-3);
+  --color-accent: var(--accent);
+  --color-accent-hover: var(--accent-hover);
+  --color-accent-soft: var(--accent-soft);
+  --color-accent-ink: var(--accent-ink);
+  --color-ok: var(--ok);
+  --color-ok-soft: var(--ok-soft);
+  --color-warn: var(--warn);
+  --color-warn-soft: var(--warn-soft);
+  --color-danger: var(--danger);
+  --color-danger-soft: var(--danger-soft);
+  --font-sans: var(--font-inter), ui-sans-serif, system-ui, sans-serif;
+  --font-serif: var(--font-serif-display), ui-serif, Georgia, serif;
+  --font-mono: ui-monospace, "SF Mono", Menlo, monospace;
+}
+
+html,
+body {
+  background: var(--bg);
+  color: var(--text);
+}
+
+body {
+  font-family: var(--font-sans);
+  -webkit-font-smoothing: antialiased;
+}
+
+:focus-visible {
+  outline: 2px solid var(--focus);
+  outline-offset: 2px;
+}
+
+.tabular {
+  font-variant-numeric: tabular-nums;
+}
+
+/* ── Markdown (twin files, chat answers) ── */
+.md {
+  font-size: 0.9rem;
+  line-height: 1.6;
+  color: var(--text);
+  overflow-wrap: anywhere;
+}
+.md > * + * {
+  margin-top: 0.7em;
+}
+.md h1 {
+  font-family: var(--font-serif);
+  font-size: 1.35rem;
+  font-weight: 500;
+}
+.md h2 {
+  font-size: 0.95rem;
+  font-weight: 600;
+  margin-top: 1.4em;
+}
+.md h3 {
+  font-size: 0.9rem;
+  font-weight: 600;
+}
+.md ul {
+  list-style: disc;
+  padding-left: 1.25rem;
+}
+.md ol {
+  list-style: decimal;
+  padding-left: 1.25rem;
+}
+.md li + li {
+  margin-top: 0.25em;
+}
+.md em {
+  color: var(--text-2);
+}
+.md a {
+  color: var(--accent);
+  text-decoration: underline;
+}
+.md code {
+  font-family: var(--font-mono);
+  font-size: 0.82em;
+  background: var(--card-muted);
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  padding: 0.05em 0.3em;
+}
+.md pre {
+  font-family: var(--font-mono);
+  font-size: 0.78rem;
+  background: var(--card-muted);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 0.75rem 0.9rem;
+  overflow-x: auto;
+  line-height: 1.5;
+}
+.md pre code {
+  background: none;
+  border: 0;
+  padding: 0;
+}
+.md table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.82rem;
+  font-variant-numeric: tabular-nums;
+  display: block;
+  overflow-x: auto;
+}
+.md th,
+.md td {
+  border-bottom: 1px solid var(--border);
+  padding: 0.4rem 0.6rem;
+  text-align: left;
+  white-space: nowrap;
+}
+.md th {
+  color: var(--text-2);
+  font-weight: 500;
+}
+.md hr {
+  border-color: var(--border);
+}
+.md blockquote {
+  border-left: 3px solid var(--border-strong);
+  padding-left: 0.8rem;
+  color: var(--text-2);
+}
+
+/* recharts tooltip reset */
+.recharts-tooltip-wrapper {
+  outline: none;
+}

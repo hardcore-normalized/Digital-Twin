@@ -1,0 +1,152 @@
+<template>
+  <style>
+    @font-face {
+      font-family: "Source Serif 4";
+      src: url("assets/fonts/SourceSerif4-latin.woff2") format("woff2");
+      font-weight: 200 900;
+    }
+    #root {
+      position: absolute;
+      inset: 0;
+    }
+    #s1-stage {
+      position: absolute;
+      inset: 0;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 76px;
+      font-family: Inter;
+      color: var(--color-ink);
+    }
+    #s1-kicker {
+      text-align: center;
+      margin-bottom: 18px;
+      font-size: 30px;
+      font-weight: 600;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--color-accent);
+    }
+    #s1-title {
+      font-family: "Source Serif 4";
+      font-weight: 500;
+      font-size: 96px;
+      line-height: 1.05;
+      letter-spacing: -0.02em;
+      text-align: center;
+    }
+    #s1-title .w {
+      display: inline-block;
+    }
+    #s1-seats {
+      display: grid;
+      grid-template-columns: repeat(7, 112px);
+      gap: 30px 36px;
+    }
+    .s1-seat {
+      position: relative;
+      width: 112px;
+      height: 112px;
+    }
+    .s1-dot {
+      position: absolute;
+      inset: 0;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #ffffff;
+      font-weight: 600;
+      font-size: 38px;
+      letter-spacing: 0.02em;
+    }
+    .s1-dim {
+      position: absolute;
+      inset: -4px;
+      border-radius: 50%;
+      background: var(--color-ground);
+      border: 4px dashed #c9c3b4;
+    }
+    #s1-sub {
+      font-size: 46px;
+      font-weight: 500;
+      color: var(--color-ink-2);
+    }
+    #s1-sub b {
+      color: var(--color-accent);
+      font-weight: 600;
+    }
+  </style>
+
+  <div id="root" data-composition-id="seats" data-width="1920" data-height="1080">
+    <div id="s1-stage" class="clip" data-start="0" data-duration="4">
+      <div id="s1-headtext">
+        <div id="s1-kicker">Usage monitoring</div>
+        <h1 id="s1-title">
+          <span class="w">Spot</span> <span class="w">idle</span> <span class="w">seats</span>
+          <span class="w">and</span> <span class="w">wasted</span> <span class="w">spend.</span>
+        </h1>
+      </div>
+      <div id="s1-seats">
+        <div class="s1-seat" id="s1-seat-ps"><div class="s1-dot" style="background:#8a5cc2">PS</div></div>
+        <div class="s1-seat" id="s1-seat-rm"><div class="s1-dot" style="background:#1b8f66">RM</div></div>
+        <div class="s1-seat" id="s1-seat-as"><div class="s1-dot" style="background:#3d7a8c">AS</div></div>
+        <div class="s1-seat" id="s1-seat-ml"><div class="s1-dot" style="background:#c2416b">ML</div></div>
+        <div class="s1-seat s1-idle" id="s1-seat-oh"><div class="s1-dot" style="background:#2a78d6">OH</div><div class="s1-dim"></div></div>
+        <div class="s1-seat" id="s1-seat-cw"><div class="s1-dot" style="background:#3d7a8c">CW</div></div>
+        <div class="s1-seat" id="s1-seat-fk"><div class="s1-dot" style="background:#8a5cc2">FK</div></div>
+        <div class="s1-seat" id="s1-seat-jb"><div class="s1-dot" style="background:#c2416b">JB</div></div>
+        <div class="s1-seat" id="s1-seat-ao"><div class="s1-dot" style="background:#b9532f">AO</div></div>
+        <div class="s1-seat" id="s1-seat-lm"><div class="s1-dot" style="background:#b7791f">LM</div></div>
+        <div class="s1-seat" id="s1-seat-sr"><div class="s1-dot" style="background:#b9532f">SR</div></div>
+        <div class="s1-seat" id="s1-seat-dk"><div class="s1-dot" style="background:#b7791f">DK</div></div>
+        <div class="s1-seat" id="s1-seat-ew"><div class="s1-dot" style="background:#1b8f66">EW</div></div>
+        <div class="s1-seat s1-idle" id="s1-seat-gl"><div class="s1-dot" style="background:#8a5cc2">GL</div><div class="s1-dim"></div></div>
+      </div>
+      <p id="s1-sub">14 seats this month. <b>Two were never opened.</b></p>
+    </div>
+  </div>
+
+  <script>
+    const tl = gsap.timeline({ paused: true });
+
+    // Title enters word by word, then holds still.
+    tl.fromTo("#s1-kicker", { opacity: 0, y: 8 }, { opacity: 1, y: 0, duration: 0.2, ease: "power3.out" }, 0.05);
+    tl.fromTo(
+      "#s1-title .w",
+      { opacity: 0, y: 14, filter: "blur(6px)" },
+      { opacity: 1, y: 0, filter: "blur(0px)", duration: 0.16, ease: "power3.out", stagger: 0.067 },
+      0.15,
+    );
+
+    // Fourteen seats arrive left to right.
+    tl.fromTo(
+      ".s1-seat",
+      { opacity: 0, scale: 0.7 },
+      { opacity: 1, scale: 1, duration: 0.42, ease: "power3.out", stagger: 0.035 },
+      0.7,
+    );
+
+    // The question.
+    tl.fromTo(
+      "#s1-sub",
+      { opacity: 0, y: 10, filter: "blur(6px)" },
+      { opacity: 1, y: 0, filter: "blur(0px)", duration: 0.22, ease: "power3.out" },
+      1.75,
+    );
+
+    // Two seats go quiet.
+    tl.fromTo(".s1-dim", { opacity: 0 }, { opacity: 0.86, duration: 0.35, ease: "power2.out", stagger: 0.08 }, 2.05);
+
+    // Leave clean.
+    tl.to(
+      ["#s1-headtext", "#s1-seats", "#s1-sub"],
+      { opacity: 0, y: -18, filter: "blur(8px)", duration: 0.22, ease: "power2.in", stagger: 0.03 },
+      3.7,
+    );
+
+    window.__timelines["seats"] = tl;
+  </script>
+</template>

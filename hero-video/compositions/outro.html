@@ -1,0 +1,115 @@
+<template>
+  <style>
+    @font-face {
+      font-family: "Source Serif 4";
+      src: url("assets/fonts/SourceSerif4-latin.woff2") format("woff2");
+      font-weight: 200 900;
+    }
+    #root {
+      position: absolute;
+      inset: 0;
+    }
+    #s5-stage {
+      position: absolute;
+      inset: 0;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 44px;
+      font-family: Inter;
+      color: var(--color-ink);
+    }
+    #s5-lockup {
+      display: flex;
+      align-items: center;
+      gap: 40px;
+    }
+    #s5-mark {
+      position: relative;
+      width: 236px;
+      height: 150px;
+    }
+    #s5-fill,
+    #s5-ring {
+      position: absolute;
+      top: 0;
+      width: 150px;
+      height: 150px;
+      border-radius: 50%;
+    }
+    #s5-fill {
+      left: 0;
+      background: var(--color-accent);
+    }
+    #s5-ring {
+      left: 86px;
+      border: 8px solid var(--color-ink);
+    }
+    #s5-word {
+      font-family: "Source Serif 4";
+      font-weight: 500;
+      font-size: 132px;
+      letter-spacing: -0.02em;
+      line-height: 1;
+    }
+    #s5-tag {
+      font-size: 48px;
+      color: var(--color-ink-2);
+    }
+    #s5-claude {
+      margin-top: 18px;
+      font-family: "Source Serif 4";
+      font-size: 64px;
+      font-weight: 500;
+      letter-spacing: -0.01em;
+      color: var(--color-ink);
+    }
+    #s5-claude .w {
+      display: inline-block;
+    }
+    #s5-claude .accent {
+      color: var(--color-accent);
+    }
+  </style>
+
+  <div id="root" data-composition-id="outro" data-width="1920" data-height="1080">
+    <div id="s5-stage" class="clip" data-start="0" data-duration="6">
+      <div id="s5-lockup">
+        <div id="s5-mark">
+          <div id="s5-fill"></div>
+          <div id="s5-ring"></div>
+        </div>
+        <div id="s5-word">Digital Twin</div>
+      </div>
+      <p id="s5-tag" data-var-text="tagline">Every AI seat, every dollar, every person.</p>
+      <p id="s5-claude">
+        <span class="w">Made</span> <span class="w">for</span> <span class="w">everyone.</span>
+        <span class="w accent">Designed</span> <span class="w accent">for</span> <span class="w accent">Claude.</span>
+      </p>
+    </div>
+  </div>
+
+  <script>
+    const tl = gsap.timeline({ paused: true });
+
+    // The two circles meet: a person and their twin.
+    tl.fromTo("#s5-fill", { x: -110, opacity: 0 }, { x: 0, opacity: 1, duration: 0.6, ease: "power3.out" }, 0.05);
+    tl.fromTo("#s5-ring", { x: 110, opacity: 0 }, { x: 0, opacity: 1, duration: 0.6, ease: "power3.out" }, 0.05);
+    tl.fromTo("#s5-word", { opacity: 0, x: 24, filter: "blur(6px)" }, { opacity: 1, x: 0, filter: "blur(0px)", duration: 0.3, ease: "power3.out" }, 0.32);
+    tl.fromTo("#s5-tag", { opacity: 0, y: 10, filter: "blur(6px)" }, { opacity: 1, y: 0, filter: "blur(0px)", duration: 0.25, ease: "power3.out" }, 0.62);
+
+    // The closing line, word by word.
+    tl.fromTo(
+      "#s5-claude .w",
+      { opacity: 0, y: 12, filter: "blur(6px)" },
+      { opacity: 1, y: 0, filter: "blur(0px)", duration: 0.18, ease: "power3.out", stagger: 0.09 },
+      1.5,
+    );
+
+    // Fade back to the ground so the loop restarts cleanly.
+    tl.to(["#s5-lockup", "#s5-tag", "#s5-claude"], { opacity: 0, filter: "blur(8px)", duration: 0.32, ease: "power2.in" }, 5.6);
+
+    window.__timelines["outro"] = tl;
+  </script>
+</template>

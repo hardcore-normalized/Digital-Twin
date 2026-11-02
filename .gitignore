@@ -1,0 +1,13 @@
+node_modules
+.next
+.data
+.env.local
+.env*.local
+*.tsbuildinfo
+next-env.d.ts
+.DS_Store
+storage-data
+hero-video/.hyperframes
+
+# Images pasted into the editor (not part of the app)
+public/Pasted *

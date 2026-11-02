@@ -1,0 +1,234 @@
+<template>
+  <style>
+    @font-face {
+      font-family: "Source Serif 4";
+      src: url("assets/fonts/SourceSerif4-latin.woff2") format("woff2");
+      font-weight: 200 900;
+    }
+    #root {
+      position: absolute;
+      inset: 0;
+    }
+    #s3-stage {
+      position: absolute;
+      inset: 0;
+      font-family: Inter;
+      color: var(--color-ink);
+    }
+    #s3-kicker {
+      position: absolute;
+      left: 0;
+      right: 0;
+      top: 92px;
+      text-align: center;
+      font-size: 30px;
+      font-weight: 600;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--color-accent);
+    }
+    #s3-title {
+      position: absolute;
+      left: 0;
+      right: 0;
+      top: 140px;
+      text-align: center;
+      font-family: "Source Serif 4";
+      font-weight: 500;
+      font-size: 80px;
+      letter-spacing: -0.02em;
+      line-height: 1;
+    }
+    #s3-title .w {
+      display: inline-block;
+    }
+    #s3-person {
+      position: absolute;
+      left: 200px;
+      top: 384px;
+      width: 620px;
+      padding: 44px 48px 48px;
+      background: var(--color-card);
+      border: 2px solid var(--color-border);
+      border-radius: 28px;
+      box-shadow: 0 40px 80px -48px rgba(60, 40, 20, 0.35);
+    }
+    #s3-ids {
+      position: relative;
+      height: 128px;
+    }
+    #s3-avatar,
+    #s3-ring {
+      position: absolute;
+      left: 0;
+      top: 0;
+      width: 128px;
+      height: 128px;
+      border-radius: 50%;
+    }
+    #s3-avatar {
+      background: #8a5cc2;
+      color: #ffffff;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 46px;
+      font-weight: 600;
+      z-index: 2;
+    }
+    #s3-ring {
+      left: 88px;
+      border: 6px solid var(--color-ink);
+      z-index: 1;
+    }
+    #s3-name {
+      margin-top: 30px;
+      font-size: 52px;
+      font-weight: 600;
+      letter-spacing: -0.01em;
+    }
+    #s3-role {
+      margin-top: 8px;
+      font-size: 32px;
+      color: var(--color-ink-2);
+    }
+    #s3-tags {
+      margin-top: 26px;
+      display: flex;
+      gap: 14px;
+    }
+    .s3-tag {
+      padding: 8px 18px;
+      border-radius: 12px;
+      font-size: 28px;
+      font-weight: 500;
+      background: var(--color-ground);
+      color: var(--color-ink-2);
+      border: 2px solid var(--color-border);
+    }
+    .s3-tag.ok {
+      background: #e3f1e8;
+      color: #23663e;
+      border-color: transparent;
+    }
+    #s3-links {
+      position: absolute;
+      left: 0;
+      top: 0;
+      width: 1920px;
+      height: 1080px;
+    }
+    #s3-files {
+      position: absolute;
+      left: 1000px;
+      top: 296px;
+      width: 720px;
+      display: flex;
+      flex-direction: column;
+      gap: 18px;
+    }
+    .s3-file {
+      height: 112px;
+      display: flex;
+      align-items: center;
+      gap: 26px;
+      padding: 0 34px;
+      background: var(--color-card);
+      border: 2px solid var(--color-border);
+      border-radius: 20px;
+    }
+    .s3-file svg {
+      flex: none;
+    }
+    .s3-fname {
+      font-family: "JetBrains Mono";
+      font-size: 36px;
+      font-weight: 600;
+    }
+    .s3-fdesc {
+      margin-top: 4px;
+      font-size: 28px;
+      color: var(--color-ink-2);
+    }
+  </style>
+
+  <div id="root" data-composition-id="twins" data-width="1920" data-height="1080">
+    <div id="s3-stage" class="clip" data-start="0" data-duration="4">
+      <div id="s3-kicker">Digital twins</div>
+      <h2 id="s3-title">
+        <span class="w">Each</span> <span class="w">twin</span> <span class="w">is</span> <span class="w">four</span>
+        <span class="w">plain</span> <span class="w">files.</span>
+      </h2>
+
+      <svg id="s3-links" viewBox="0 0 1920 1080" data-layout-ignore>
+        <g fill="none" stroke="#d6d1c4" stroke-width="3" stroke-linecap="round">
+          <path class="s3-link" pathLength="1" d="M 822 546 C 910 546, 910 352, 1000 352" />
+          <path class="s3-link" pathLength="1" d="M 822 546 C 910 546, 910 482, 1000 482" />
+          <path class="s3-link" pathLength="1" d="M 822 546 C 910 546, 910 612, 1000 612" />
+          <path class="s3-link" pathLength="1" d="M 822 546 C 910 546, 910 742, 1000 742" />
+        </g>
+      </svg>
+
+      <div id="s3-person">
+        <div id="s3-ids">
+          <div id="s3-ring"></div>
+          <div id="s3-avatar">PS</div>
+        </div>
+        <div id="s3-name">Priya Sharma</div>
+        <div id="s3-role">Backend engineer &middot; Payments</div>
+        <div id="s3-tags">
+          <span class="s3-tag">Enterprise seat</span>
+          <span class="s3-tag ok">Active</span>
+        </div>
+      </div>
+
+      <div id="s3-files">
+        <div class="s3-file" id="s3-file-about">
+          <svg width="40" height="48" viewBox="0 0 40 48" fill="none" stroke="#8a867c" stroke-width="3"><path d="M4 3h22l10 10v32H4z" /><path d="M26 3v10h10" /></svg>
+          <div><div class="s3-fname">ABOUT.md</div><div class="s3-fdesc">Written by Priya</div></div>
+        </div>
+        <div class="s3-file" id="s3-file-progress">
+          <svg width="40" height="48" viewBox="0 0 40 48" fill="none" stroke="#8a867c" stroke-width="3"><path d="M4 3h22l10 10v32H4z" /><path d="M26 3v10h10" /></svg>
+          <div><div class="s3-fname">PROGRESS.md</div><div class="s3-fdesc">Kept current by the twin</div></div>
+        </div>
+        <div class="s3-file" id="s3-file-usage">
+          <svg width="40" height="48" viewBox="0 0 40 48" fill="none" stroke="#8a867c" stroke-width="3"><path d="M4 3h22l10 10v32H4z" /><path d="M26 3v10h10" /></svg>
+          <div><div class="s3-fname">USAGE.md</div><div class="s3-fdesc">Exact usage and cost</div></div>
+        </div>
+        <div class="s3-file" id="s3-file-audit">
+          <svg width="40" height="48" viewBox="0 0 40 48" fill="none" stroke="#8a867c" stroke-width="3"><path d="M4 3h22l10 10v32H4z" /><path d="M26 3v10h10" /></svg>
+          <div><div class="s3-fname">AUDIT_LOG.md</div><div class="s3-fdesc">Every question, visible to Priya</div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const tl = gsap.timeline({ paused: true });
+
+    tl.fromTo(
+      "#s3-title .w",
+      { opacity: 0, y: 14, filter: "blur(6px)" },
+      { opacity: 1, y: 0, filter: "blur(0px)", duration: 0.16, ease: "power3.out", stagger: 0.067 },
+      0.05,
+    );
+
+    // The person arrives from the left.
+    tl.fromTo("#s3-person", { opacity: 0, x: -70 }, { opacity: 1, x: 0, duration: 0.65, ease: "power3.out" }, 0.3);
+
+    tl.fromTo("#s3-kicker", { opacity: 0, y: 8 }, { opacity: 1, y: 0, duration: 0.2, ease: "power3.out" }, 0.02);
+
+    // Links draw, then the four files arrive one by one.
+    tl.fromTo(".s3-link", { strokeDasharray: 1, strokeDashoffset: 1 }, { strokeDashoffset: 0, duration: 0.45, ease: "power2.out", stagger: 0.06 }, 0.95);
+    tl.fromTo(
+      ".s3-file",
+      { opacity: 0, x: 34, filter: "blur(6px)" },
+      { opacity: 1, x: 0, filter: "blur(0px)", duration: 0.36, ease: "power3.out", stagger: 0.12 },
+      1.15,
+    );
+
+    tl.to(["#s3-kicker", "#s3-title", "#s3-person", "#s3-links", "#s3-files"], { opacity: 0, filter: "blur(8px)", duration: 0.24, ease: "power2.in" }, 3.7);
+
+    window.__timelines["twins"] = tl;
+  </script>
+</template>

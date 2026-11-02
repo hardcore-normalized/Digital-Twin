@@ -1,0 +1,249 @@
+<template>
+  <style>
+    @font-face {
+      font-family: "Source Serif 4";
+      src: url("assets/fonts/SourceSerif4-latin.woff2") format("woff2");
+      font-weight: 200 900;
+    }
+    #root {
+      position: absolute;
+      inset: 0;
+    }
+    #s2-stage {
+      position: absolute;
+      inset: 0;
+      font-family: Inter;
+      color: var(--color-ink);
+    }
+    #s2-kicker {
+      position: absolute;
+      left: 160px;
+      top: 92px;
+      font-size: 30px;
+      font-weight: 600;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--color-accent);
+    }
+    #s2-title {
+      position: absolute;
+      left: 160px;
+      top: 140px;
+      font-family: "Source Serif 4";
+      font-weight: 500;
+      font-size: 80px;
+      letter-spacing: -0.02em;
+      line-height: 1;
+    }
+    #s2-title .w {
+      display: inline-block;
+    }
+    #s2-card {
+      position: absolute;
+      left: 160px;
+      top: 268px;
+      width: 1600px;
+      padding: 48px 48px 56px;
+      background: var(--color-card);
+      border: 2px solid var(--color-border);
+      border-radius: 28px;
+      box-shadow: 0 40px 80px -48px rgba(60, 40, 20, 0.35);
+    }
+    #s2-tiles {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 28px;
+    }
+    .s2-tile {
+      border: 2px solid var(--color-border);
+      border-radius: 20px;
+      padding: 26px 34px;
+    }
+    .s2-label {
+      font-size: 30px;
+      color: var(--color-ink-2);
+    }
+    .s2-value {
+      margin-top: 12px;
+      font-size: 72px;
+      font-weight: 600;
+      letter-spacing: -0.02em;
+      line-height: 1;
+    }
+    .s2-value small {
+      font-size: 36px;
+      font-weight: 500;
+      color: var(--color-ink-3);
+      letter-spacing: 0;
+    }
+    #s2-chart-head {
+      margin-top: 40px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    #s2-chart-title {
+      font-size: 30px;
+      font-weight: 600;
+    }
+    #s2-legend {
+      display: flex;
+      gap: 36px;
+      font-size: 28px;
+      color: var(--color-ink-2);
+    }
+    #s2-legend span {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+    #s2-legend i {
+      width: 22px;
+      height: 22px;
+      border-radius: 6px;
+    }
+    #s2-chart {
+      position: relative;
+      margin-top: 28px;
+      height: 340px;
+      display: flex;
+      align-items: flex-end;
+      justify-content: space-between;
+      border-bottom: 2px solid var(--color-border);
+    }
+    .s2-bar {
+      width: 44px;
+      display: flex;
+      flex-direction: column;
+      gap: 3px;
+      border-radius: 8px 8px 0 0;
+      overflow: hidden;
+      transform-origin: 50% 100%;
+    }
+    .s2-seg {
+      display: block;
+      width: 100%;
+    }
+    #s2-callout {
+      position: absolute;
+      top: 8px;
+      right: 356px;
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      padding: 12px 22px;
+      border-radius: 999px;
+      background: var(--color-accent-soft);
+      color: var(--color-accent);
+      font-size: 28px;
+      font-weight: 600;
+      white-space: nowrap;
+    }
+  </style>
+
+  <div id="root" data-composition-id="dashboard" data-width="1920" data-height="1080">
+    <div id="s2-stage" class="clip" data-start="0" data-duration="4">
+      <div id="s2-kicker">Usage monitoring</div>
+      <h2 id="s2-title">
+        <span class="w">See</span> <span class="w">every</span> <span class="w">seat</span> <span class="w">and</span>
+        <span class="w">every</span> <span class="w">dollar.</span>
+      </h2>
+      <div id="s2-card">
+        <div id="s2-tiles">
+          <div class="s2-tile" id="s2-tile-active">
+            <div class="s2-label">Active this week</div>
+            <div class="s2-value"><span id="s2-active">0</span> <small>of 14</small></div>
+          </div>
+          <div class="s2-tile" id="s2-tile-spend">
+            <div class="s2-label">Spend this month</div>
+            <div class="s2-value" id="s2-spend">$0</div>
+          </div>
+          <div class="s2-tile" id="s2-tile-idle">
+            <div class="s2-label">Idle seats</div>
+            <div class="s2-value"><span id="s2-idle">0</span> <small>Omar, Grace</small></div>
+          </div>
+        </div>
+        <div id="s2-chart-head">
+          <div id="s2-chart-title">Daily spend by product</div>
+          <div id="s2-legend">
+            <span><i style="background: var(--color-chat)"></i>Chat</span>
+            <span><i style="background: var(--color-code)"></i>Claude Code</span>
+            <span><i style="background: var(--color-cowork)"></i>Cowork</span>
+          </div>
+        </div>
+        <div id="s2-chart" data-layout-allow-overlap>
+          <div class="s2-bar" id="s2-bar-01"><i class="s2-seg" style="height:13px;background:var(--color-cowork)"></i><i class="s2-seg" style="height:140px;background:var(--color-code)"></i><i class="s2-seg" style="height:45px;background:var(--color-chat)"></i></div>
+          <div class="s2-bar" id="s2-bar-02"><i class="s2-seg" style="height:18px;background:var(--color-cowork)"></i><i class="s2-seg" style="height:82px;background:var(--color-code)"></i><i class="s2-seg" style="height:56px;background:var(--color-chat)"></i></div>
+          <div class="s2-bar" id="s2-bar-03"><i class="s2-seg" style="height:12px;background:var(--color-cowork)"></i><i class="s2-seg" style="height:101px;background:var(--color-code)"></i><i class="s2-seg" style="height:42px;background:var(--color-chat)"></i></div>
+          <div class="s2-bar" id="s2-bar-04"><i class="s2-seg" style="height:8px;background:var(--color-cowork)"></i><i class="s2-seg" style="height:134px;background:var(--color-code)"></i><i class="s2-seg" style="height:35px;background:var(--color-chat)"></i></div>
+          <div class="s2-bar" id="s2-bar-05"><i class="s2-seg" style="height:15px;background:var(--color-cowork)"></i><i class="s2-seg" style="height:71px;background:var(--color-code)"></i><i class="s2-seg" style="height:50px;background:var(--color-chat)"></i></div>
+          <div class="s2-bar" id="s2-bar-06"><i class="s2-seg" style="height:12px;background:var(--color-code)"></i><i class="s2-seg" style="height:10px;background:var(--color-chat)"></i></div>
+          <div class="s2-bar" id="s2-bar-07"><i class="s2-seg" style="height:12px;background:var(--color-code)"></i><i class="s2-seg" style="height:7px;background:var(--color-chat)"></i></div>
+          <div class="s2-bar" id="s2-bar-08"><i class="s2-seg" style="height:10px;background:var(--color-cowork)"></i><i class="s2-seg" style="height:73px;background:var(--color-code)"></i><i class="s2-seg" style="height:38px;background:var(--color-chat)"></i></div>
+          <div class="s2-bar" id="s2-bar-09"><i class="s2-seg" style="height:17px;background:var(--color-cowork)"></i><i class="s2-seg" style="height:137px;background:var(--color-code)"></i><i class="s2-seg" style="height:54px;background:var(--color-chat)"></i></div>
+          <div class="s2-bar" id="s2-bar-10"><i class="s2-seg" style="height:15px;background:var(--color-cowork)"></i><i class="s2-seg" style="height:95px;background:var(--color-code)"></i><i class="s2-seg" style="height:49px;background:var(--color-chat)"></i></div>
+          <div class="s2-bar" id="s2-bar-11"><i class="s2-seg" style="height:8px;background:var(--color-cowork)"></i><i class="s2-seg" style="height:86px;background:var(--color-code)"></i><i class="s2-seg" style="height:34px;background:var(--color-chat)"></i></div>
+          <div class="s2-bar" id="s2-bar-12"><i class="s2-seg" style="height:12px;background:var(--color-cowork)"></i><i class="s2-seg" style="height:140px;background:var(--color-code)"></i><i class="s2-seg" style="height:43px;background:var(--color-chat)"></i></div>
+          <div class="s2-bar" id="s2-bar-13"><i class="s2-seg" style="height:8px;background:var(--color-code)"></i><i class="s2-seg" style="height:10px;background:var(--color-chat)"></i></div>
+          <div class="s2-bar" id="s2-bar-14"><i class="s2-seg" style="height:11px;background:var(--color-code)"></i><i class="s2-seg" style="height:8px;background:var(--color-chat)"></i></div>
+          <div class="s2-bar" id="s2-bar-15"><i class="s2-seg" style="height:8px;background:var(--color-cowork)"></i><i class="s2-seg" style="height:130px;background:var(--color-code)"></i><i class="s2-seg" style="height:34px;background:var(--color-chat)"></i></div>
+          <div class="s2-bar" id="s2-bar-16"><i class="s2-seg" style="height:15px;background:var(--color-cowork)"></i><i class="s2-seg" style="height:70px;background:var(--color-code)"></i><i class="s2-seg" style="height:49px;background:var(--color-chat)"></i></div>
+          <div class="s2-bar" id="s2-bar-17"><i class="s2-seg" style="height:17px;background:var(--color-cowork)"></i><i class="s2-seg" style="height:127px;background:var(--color-code)"></i><i class="s2-seg" style="height:55px;background:var(--color-chat)"></i></div>
+          <div class="s2-bar" id="s2-bar-18"><i class="s2-seg" style="height:10px;background:var(--color-cowork)"></i><i class="s2-seg" style="height:250px;background:var(--color-code)"></i><i class="s2-seg" style="height:39px;background:var(--color-chat)"></i></div>
+          <div class="s2-bar" id="s2-bar-19"><i class="s2-seg" style="height:9px;background:var(--color-cowork)"></i><i class="s2-seg" style="height:75px;background:var(--color-code)"></i><i class="s2-seg" style="height:37px;background:var(--color-chat)"></i></div>
+          <div class="s2-bar" id="s2-bar-20"><i class="s2-seg" style="height:14px;background:var(--color-code)"></i><i class="s2-seg" style="height:10px;background:var(--color-chat)"></i></div>
+          <div class="s2-bar" id="s2-bar-21"><i class="s2-seg" style="height:9px;background:var(--color-code)"></i><i class="s2-seg" style="height:9px;background:var(--color-chat)"></i></div>
+          <div class="s2-bar" id="s2-bar-22"><i class="s2-seg" style="height:8px;background:var(--color-cowork)"></i><i class="s2-seg" style="height:92px;background:var(--color-code)"></i><i class="s2-seg" style="height:35px;background:var(--color-chat)"></i></div>
+          <div id="s2-callout">Usage spike flagged &rarr;</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const tl = gsap.timeline({ paused: true });
+
+    tl.fromTo("#s2-kicker", { opacity: 0, y: 8 }, { opacity: 1, y: 0, duration: 0.2, ease: "power3.out" }, 0.02);
+    tl.fromTo(
+      "#s2-title .w",
+      { opacity: 0, y: 14, filter: "blur(6px)" },
+      { opacity: 1, y: 0, filter: "blur(0px)", duration: 0.16, ease: "power3.out", stagger: 0.067 },
+      0.05,
+    );
+
+    // The dashboard arrives slightly large and settles.
+    tl.fromTo(
+      "#s2-card",
+      { opacity: 0, y: 40, scale: 1.04 },
+      { opacity: 1, y: 0, scale: 1, duration: 0.7, ease: "power3.out" },
+      0.1,
+    );
+
+    tl.fromTo(".s2-tile", { opacity: 0, y: 16 }, { opacity: 1, y: 0, duration: 0.4, ease: "power3.out", stagger: 0.08 }, 0.45);
+
+    // Numbers count up from zero.
+    const count = (sel, to, fmt, at, dur) => {
+      const el = document.querySelector(sel);
+      const o = { v: 0 };
+      tl.to(o, { v: to, duration: dur, ease: "power2.out", onUpdate: () => (el.textContent = fmt(o.v)) }, at);
+    };
+    count("#s2-active", 12, (v) => String(Math.round(v)), 0.5, 0.9);
+    count("#s2-spend", 935, (v) => "$" + Math.round(v).toLocaleString("en-US"), 0.55, 1.2);
+    count("#s2-idle", 2, (v) => String(Math.round(v)), 0.6, 0.6);
+
+    // Bars grow from the baseline, left to right.
+    tl.fromTo(".s2-bar", { scaleY: 0 }, { scaleY: 1, duration: 0.55, ease: "power3.out", stagger: 0.03 }, 0.85);
+
+    // The spike gets called out.
+    tl.fromTo(
+      "#s2-callout",
+      { opacity: 0, x: -16, filter: "blur(6px)" },
+      { opacity: 1, x: 0, filter: "blur(0px)", duration: 0.3, ease: "power3.out" },
+      2.25,
+    );
+
+    tl.to(["#s2-kicker", "#s2-title", "#s2-card"], { opacity: 0, y: -20, filter: "blur(8px)", duration: 0.24, ease: "power2.in", stagger: 0.03 }, 3.7);
+
+    window.__timelines["dashboard"] = tl;
+  </script>
+</template>
