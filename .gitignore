@@ -11,3 +11,6 @@ hero-video/.hyperframes
 
 # Images pasted into the editor (not part of the app)
 public/Pasted *
+.vercel
+.env*
+!.env.example

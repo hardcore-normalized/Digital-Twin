@@ -4,6 +4,8 @@
 
 A free, open-source dashboard for companies that pay for AI seats (starting with **Claude Enterprise**). It splits usage and cost per person and team, and gives every person a **digital twin**: a folder of markdown files the company owner can chat with ("What has Priya been working on this week?").
 
+**Website:** [digital-twin-rose-rho.vercel.app](https://digital-twin-rose-rho.vercel.app)
+
 ![Overview dashboard](docs/screenshots/overview.png)
 
 | A twin's files | Setup: bring your own keys |
@@ -127,7 +129,7 @@ The landing page's 38-second product tour is a [HyperFrames](https://hyperframes
 
 The same codebase also serves the project's homepage in **website-only mode**: just the landing, security and docs pages, with "Download from GitHub" and "Star on GitHub" buttons. There's no database, no sign-in and no secrets. Links to the app (`/app`, `/sign-in`, `/sign-up`, `/api/*`) redirect to this repository.
 
-Website-only mode turns on automatically when the app is deployed on Vercel **without** a `DATABASE_URL`, so deploying the website is: import this repo on [vercel.com](https://vercel.com/new) and click **Deploy**, with no settings needed. Force it either way with `SITE_ONLY=true` or `SITE_ONLY=false`. The star count on the site is fetched from GitHub and refreshed hourly.
+Website-only mode turns on automatically when the app is deployed on Vercel **without** a `DATABASE_URL`, so deploying the website is: import this repo on [vercel.com](https://vercel.com/new) and click **Deploy**, with no settings needed. Force it either way with `SITE_ONLY=true` or `SITE_ONLY=false`. The star count on the site is fetched from GitHub and refreshed hourly. `.vercelignore` keeps `docs/` (README screenshots) and `hero-video/` (the video's source) out of the upload.
 
 ## Production
 

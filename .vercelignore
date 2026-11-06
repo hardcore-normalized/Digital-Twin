@@ -1,0 +1,12 @@
+# Never upload local secrets, data or build output to Vercel.
+.env
+.env.*
+!.env.example
+/.data
+.next
+node_modules
+/storage-data
+/public/Pasted *
+# Not needed to build the website.
+/hero-video
+/docs

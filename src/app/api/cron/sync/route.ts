@@ -1,7 +1,7 @@
 import { timingSafeEqual } from "node:crypto";
 import { runDueSyncs } from "@/lib/scheduler";
 
-export const maxDuration = 800;
+export const maxDuration = 300; // Vercel's free (Hobby) plan allows at most 300 seconds
 
 /**
  * For hosts without a long-running server (e.g. serverless), call this every
