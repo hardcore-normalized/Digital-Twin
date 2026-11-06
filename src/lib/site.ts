@@ -24,6 +24,10 @@ export const KEYS = [
 
 export const FAQ = [
   {
+    q: "How do I get it?",
+    a: "Download it from GitHub and run three commands (see Run it yourself above). It runs on your own computer or server, so your data and keys stay with you. Everything is free and open source under the MIT license.",
+  },
+  {
     q: "Is it really free?",
     a: "Yes. There are no plans, seats, trials or paywalls. You bring your own keys, and any usage of those keys is billed by the provider that issued them, directly to you.",
   },

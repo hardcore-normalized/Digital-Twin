@@ -12,7 +12,7 @@ export function LogoMark({ size = 22 }: { size?: number }) {
 
 export function Logo({ href = "/" }: { href?: string }) {
   return (
-    <Link href={href} className="inline-flex items-center gap-2 font-serif text-[19px] font-medium tracking-tight">
+    <Link href={href} className="inline-flex items-center gap-2 font-serif text-[19px] font-medium tracking-tight whitespace-nowrap">
       <LogoMark />
       Digital Twin
     </Link>

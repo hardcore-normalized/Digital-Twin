@@ -30,16 +30,21 @@ Local addresses and folders are allowed in development, and in production only w
 
 ## Quick start
 
+You need [Node.js](https://nodejs.org) 20 or newer.
+
 ```bash
-npm install
-npm run dev          # creates .env.local with fresh secrets on first run
+git clone https://github.com/hardcore-normalized/Digital-Twin.git
+cd Digital-Twin
+npm install && npm run dev   # creates .env.local with fresh secrets on first run
 ```
 
 Open the URL Next prints (http://localhost:3000, or 3001 if 3000 is busy), create an account, and pick **Explore with demo data**. That creates a fictional 14-person company with 45 days of usage, check-ins and twins.
 
 No database setup is needed locally: an embedded Postgres (PGlite) stores data in `.data/pglite`. Delete that folder to start over.
 
-To turn on twin chat and AI-written PROGRESS.md files, add an Anthropic API key in **Settings → AI & privacy** (or set `ANTHROPIC_API_KEY` in `.env.local` for every zone).
+To turn on twin chat and AI-written PROGRESS.md files, add an AI model in **Setup** or **Settings → AI & privacy**.
+
+If Digital Twin is useful to you, please ⭐ [star the repo](https://github.com/hardcore-normalized/Digital-Twin): it helps other people find it.
 
 ## How it works
 
@@ -117,6 +122,12 @@ The landing page's 38-second product tour is a [HyperFrames](https://hyperframes
 - Rendered file: `public/hero/digital-twin-hero.mp4`, plus `public/hero/poster.jpg` for before it loads and for visitors who prefer reduced motion. It autoplays muted with Sound and Pause buttons.
 - Music: `hero-video/assets/music/lofi-house.mp3`, an instrumental lo-fi house track (120 BPM, A minor) generated with [ACE-Step 1.5](https://github.com/ace-step/ACE-Step-1.5) through its cloud API. To make a new one, use the `acestep` skill in the ACE-Step repo, replace the file, then run `hyperframes beats` to refresh the beat grid.
 - To edit: open `hero-video/` in the HyperFrames app (or edit the HTML), then re-render into `public/hero/digital-twin-hero.mp4`. Colours are variables in `hero-video/index.html`.
+
+## The public website
+
+The same codebase also serves the project's homepage in **website-only mode**: just the landing, security and docs pages, with "Download from GitHub" and "Star on GitHub" buttons. There's no database, no sign-in and no secrets. Links to the app (`/app`, `/sign-in`, `/sign-up`, `/api/*`) redirect to this repository.
+
+Website-only mode turns on automatically when the app is deployed on Vercel **without** a `DATABASE_URL`, so deploying the website is: import this repo on [vercel.com](https://vercel.com/new) and click **Deploy**, with no settings needed. Force it either way with `SITE_ONLY=true` or `SITE_ONLY=false`. The star count on the site is fetched from GitHub and refreshed hourly.
 
 ## Production
 

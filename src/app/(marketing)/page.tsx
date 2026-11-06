@@ -1,8 +1,12 @@
 import Link from "next/link";
 import { ArrowRight, Bell, Cable, Database, Eye, FileText, KeyRound, MessageSquare, Users } from "lucide-react";
+import { CopyCommands } from "@/components/copy-commands";
+import { DownloadButton, StarButton } from "@/components/github-cta";
 import { HeroVideo } from "@/components/hero-video";
 import { ButtonLink, Card } from "@/components/ui";
+import { getStarCount } from "@/lib/github";
 import { FAQ, KEYS } from "@/lib/site";
+import { GITHUB_URL, isWebsiteOnly } from "@/lib/site-mode";
 
 const steps = [
   {
@@ -38,14 +42,22 @@ const files = [
   { name: "AUDIT_LOG.md", by: "Append-only", body: "System events and every question asked to the twin." },
 ];
 
-export default function Landing() {
+const INSTALL = [
+  "git clone https://github.com/hardcore-normalized/Digital-Twin.git",
+  "cd Digital-Twin",
+  "npm install && npm run dev",
+];
+
+export default async function Landing() {
+  const websiteOnly = isWebsiteOnly();
+  const stars = await getStarCount();
   return (
     <>
       {/* Hero */}
       <section className="mx-auto max-w-6xl px-4 pt-16 pb-20 sm:px-6 lg:pt-20">
         <div className="mx-auto max-w-3xl text-center">
           <p className="mb-5 inline-flex items-center gap-2 rounded-full border border-border bg-card px-3 py-1 text-xs text-text-2">
-            Free for teams on Claude Enterprise
+            Free and open source · for teams on Claude Enterprise
           </p>
           <h1 className="font-serif text-[44px] leading-[1.05] font-medium tracking-[-0.02em] sm:text-[60px]">
             Every AI seat, every dollar, every person.
@@ -55,14 +67,27 @@ export default function Landing() {
             everyone a digital twin you can ask what they&apos;ve been working on.
           </p>
           <div className="mt-8 flex flex-wrap justify-center gap-3">
-            <ButtonLink href="/sign-up" size="lg">
-              Get started <ArrowRight size={16} />
-            </ButtonLink>
-            <ButtonLink href="/sign-up?demo=1" size="lg" variant="secondary">
-              Explore with demo data
-            </ButtonLink>
+            {websiteOnly ? (
+              <>
+                <DownloadButton size="lg" />
+                <StarButton count={stars} size="lg" />
+              </>
+            ) : (
+              <>
+                <ButtonLink href="/sign-up" size="lg">
+                  Get started <ArrowRight size={16} />
+                </ButtonLink>
+                <ButtonLink href="/sign-up?demo=1" size="lg" variant="secondary">
+                  Explore with demo data
+                </ButtonLink>
+              </>
+            )}
           </div>
-          <p className="mt-4 text-[13px] text-text-3">Free forever. Bring your own keys. Demo workspace ready in seconds.</p>
+          <p className="mt-4 text-[13px] text-text-3">
+            {websiteOnly
+              ? "Free forever, MIT licensed. Runs on your own computer or server, with your own keys."
+              : "Free forever. Bring your own keys. Demo workspace ready in seconds."}
+          </p>
         </div>
 
         {/* Product motion graphic (HyperFrames project in /hero-video) */}
@@ -194,9 +219,13 @@ export default function Landing() {
                 No plans, no seats, no trials, no credit card. You connect your own keys, and any usage of them is billed by the provider
                 that issued them, straight to you. Every key is encrypted at rest and can be removed at any time.
               </p>
-              <ButtonLink href="/sign-up" className="mt-6">
-                Get started <ArrowRight size={16} />
-              </ButtonLink>
+              {websiteOnly ? (
+                <DownloadButton className="mt-6" />
+              ) : (
+                <ButtonLink href="/sign-up" className="mt-6">
+                  Get started <ArrowRight size={16} />
+                </ButtonLink>
+              )}
             </div>
             <div className="space-y-3">
               {KEYS.map((k) => (
@@ -215,6 +244,44 @@ export default function Landing() {
                 </Card>
               ))}
             </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Download: run it yourself */}
+      <section id="download" className="mx-auto max-w-6xl scroll-mt-20 px-4 py-20 sm:px-6">
+        <div className="grid gap-10 lg:grid-cols-[1fr_1.2fr] lg:items-center">
+          <div>
+            <p className="text-sm font-semibold tracking-wide text-accent uppercase">Download</p>
+            <h2 className="mt-2 font-serif text-3xl font-medium tracking-tight">Run it yourself in three commands.</h2>
+            <p className="mt-4 text-[16px] leading-relaxed text-text-2">
+              Digital Twin is open source. Download it from GitHub and run it on your own computer or server, so your data and keys stay with
+              you. You&apos;ll need <a href="https://nodejs.org" target="_blank" rel="noopener noreferrer" className="text-accent underline">Node.js</a> 20
+              or newer.
+            </p>
+            <ol className="mt-5 list-decimal space-y-1.5 pl-5 text-[15px] text-text-2">
+              <li>Run the commands, then open <code className="rounded bg-card-muted px-1.5 py-0.5 font-mono text-[13px]">http://localhost:3000</code>.</li>
+              <li>Create an account and pick <strong className="font-medium text-text">Explore with demo data</strong> to look around.</li>
+              <li>When you&apos;re ready, add your keys on the Setup page.</li>
+            </ol>
+            <div className="mt-6 flex flex-wrap gap-3">
+              <DownloadButton />
+              <a href={`${GITHUB_URL}#readme`} target="_blank" rel="noopener noreferrer" className="inline-flex h-9 items-center rounded-lg px-3 text-sm text-text-2 hover:text-text">
+                Read the setup guide →
+              </a>
+            </div>
+          </div>
+          <div className="space-y-4">
+            <CopyCommands commands={INSTALL} />
+            <Card className="flex flex-col gap-4 p-5 sm:flex-row sm:items-center">
+              <div className="flex-1">
+                <div className="text-[15px] font-semibold">Like it? Give it a star ⭐</div>
+                <p className="mt-1 text-sm text-text-2">
+                  Digital Twin is a free student project. A star on GitHub helps other people find it, and it means a lot.
+                </p>
+              </div>
+              <StarButton count={stars} />
+            </Card>
           </div>
         </div>
       </section>
@@ -240,9 +307,20 @@ export default function Landing() {
         <Card className="flex flex-col items-start justify-between gap-6 bg-text p-10 text-bg md:flex-row md:items-center">
           <div>
             <h2 className="font-serif text-3xl font-medium tracking-tight">See your company&apos;s AI clearly.</h2>
-            <p className="mt-2 text-[15px] opacity-75">Start with demo data, connect Claude Enterprise when you&apos;re ready.</p>
+            <p className="mt-2 text-[15px] opacity-75">
+              {websiteOnly
+                ? "Free and open source. Download it, try the demo company, and connect Claude Enterprise when you're ready."
+                : "Start with demo data, connect Claude Enterprise when you're ready."}
+            </p>
           </div>
-          <ButtonLink href="/sign-up" size="lg">Create your zone <ArrowRight size={16} /></ButtonLink>
+          {websiteOnly ? (
+            <div className="flex flex-wrap gap-3">
+              <DownloadButton size="lg" />
+              <StarButton count={stars} size="lg" className="border-transparent" />
+            </div>
+          ) : (
+            <ButtonLink href="/sign-up" size="lg">Create your zone <ArrowRight size={16} /></ButtonLink>
+          )}
         </Card>
       </section>
     </>
