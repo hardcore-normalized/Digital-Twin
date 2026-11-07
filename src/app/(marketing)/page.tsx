@@ -70,7 +70,8 @@ export default async function Landing() {
             {websiteOnly ? (
               <>
                 <DownloadButton size="lg" />
-                <ButtonLink href={DEMO_PATH} size="lg" variant="secondary">
+                {/* prefetch: loads the demo in the background, so it opens instantly when clicked */}
+                <ButtonLink href={DEMO_PATH} prefetch size="lg" variant="secondary">
                   Try the live demo <ArrowRight size={16} />
                 </ButtonLink>
                 <StarButton count={stars} size="lg" />
@@ -319,7 +320,7 @@ export default async function Landing() {
           {websiteOnly ? (
             <div className="flex flex-wrap gap-3">
               <DownloadButton size="lg" />
-              <ButtonLink href={DEMO_PATH} size="lg" variant="secondary">Try the live demo</ButtonLink>
+              <ButtonLink href={DEMO_PATH} prefetch size="lg" variant="secondary">Try the live demo</ButtonLink>
               <StarButton count={stars} size="lg" className="border-transparent" />
             </div>
           ) : (

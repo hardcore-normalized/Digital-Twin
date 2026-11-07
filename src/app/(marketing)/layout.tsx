@@ -23,7 +23,7 @@ export default async function MarketingLayout({ children }: { children: React.Re
           <nav className="hidden items-center gap-7 text-sm text-text-2 lg:flex">
             <Link href="/#how" className="hover:text-text">How it works</Link>
             <Link href="/#twins" className="hover:text-text">Digital twins</Link>
-            {websiteOnly && <Link href={DEMO_PATH} className="hover:text-text">Live demo</Link>}
+            {websiteOnly && <Link href={DEMO_PATH} prefetch className="hover:text-text">Live demo</Link>}
             <Link href="/#download" className="hover:text-text">Download</Link>
             <Link href="/security" className="hover:text-text">Security</Link>
             <Link href="/docs/storage-api" className="hover:text-text">Docs</Link>
