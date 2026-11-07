@@ -3,7 +3,7 @@ import { Logo } from "@/components/logo";
 import { DownloadButton, StarButton } from "@/components/github-cta";
 import { ButtonLink } from "@/components/ui";
 import { getStarCount } from "@/lib/github";
-import { GITHUB_URL, isWebsiteOnly } from "@/lib/site-mode";
+import { DEMO_PATH, GITHUB_URL, GUIDE_URL, isWebsiteOnly } from "@/lib/site-mode";
 
 async function currentUser() {
   // The public website has no database, so never look up a session there.
@@ -23,6 +23,7 @@ export default async function MarketingLayout({ children }: { children: React.Re
           <nav className="hidden items-center gap-7 text-sm text-text-2 lg:flex">
             <Link href="/#how" className="hover:text-text">How it works</Link>
             <Link href="/#twins" className="hover:text-text">Digital twins</Link>
+            {websiteOnly && <Link href={DEMO_PATH} className="hover:text-text">Live demo</Link>}
             <Link href="/#download" className="hover:text-text">Download</Link>
             <Link href="/security" className="hover:text-text">Security</Link>
             <Link href="/docs/storage-api" className="hover:text-text">Docs</Link>
@@ -57,6 +58,7 @@ export default async function MarketingLayout({ children }: { children: React.Re
             <div className="font-medium text-text">Product</div>
             <Link href="/#how" className="block hover:text-text">How it works</Link>
             <Link href="/#free" className="block hover:text-text">Free, with your own keys</Link>
+            {websiteOnly && <Link href={DEMO_PATH} className="block hover:text-text">Live demo</Link>}
             <Link href="/#download" className="block hover:text-text">Run it yourself</Link>
           </div>
           <div className="space-y-2">
@@ -67,6 +69,7 @@ export default async function MarketingLayout({ children }: { children: React.Re
           <div className="space-y-2">
             <div className="font-medium text-text">Open source</div>
             <a href={GITHUB_URL} target="_blank" rel="noopener noreferrer" className="block hover:text-text">GitHub repository</a>
+            <a href={GUIDE_URL} target="_blank" rel="noopener noreferrer" className="block hover:text-text">Install guide</a>
             <a href={GITHUB_URL} target="_blank" rel="noopener noreferrer" className="block hover:text-text">⭐ Star on GitHub</a>
             <a href={`${GITHUB_URL}/issues`} target="_blank" rel="noopener noreferrer" className="block hover:text-text">Report an issue</a>
           </div>

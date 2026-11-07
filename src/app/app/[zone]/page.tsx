@@ -8,6 +8,7 @@ import { addDemoConnection, syncNow } from "@/lib/actions";
 import { PRODUCT_LABEL, daysBetween, displayName, initials, money, num, relativeDay, timeAgo, todayUtc } from "@/lib/format";
 import { getAudit, getConnections, getLastSync, getOverview, getPeopleTable, getSetupStatus } from "@/lib/queries";
 import { describeSlot, nextSlot } from "@/lib/schedule-time";
+import { isLiveDemo } from "@/lib/site-mode";
 
 export const metadata = { title: "Overview" };
 
@@ -23,6 +24,7 @@ export default async function Overview({ params }: { params: Promise<{ zone: str
     getAudit(ctx.zone.id, { limit: 6 }),
   ]);
   const base = `/app/${slug}`;
+  const liveDemo = isLiveDemo(); // the website's demo has its own banner and never syncs
 
   if (!connections.length && !people.length) {
     return (
@@ -63,13 +65,13 @@ export default async function Overview({ params }: { params: Promise<{ zone: str
           <>
             Last 30 days across {ctx.zone.name}.{" "}
             {lastSync ? `Last synced ${timeAgo(lastSync.startedAt)}.` : "Not synced yet."}{" "}
-            {ctx.zone.syncEnabled ? `Next automatic sync ${describeSlot(nextSlot(new Date(), ctx.zone.syncTime, ctx.zone.syncTimezone), ctx.zone.syncTimezone)}.` : ""}
+            {ctx.zone.syncEnabled && !liveDemo ? `Next automatic sync ${describeSlot(nextSlot(new Date(), ctx.zone.syncTime, ctx.zone.syncTimezone), ctx.zone.syncTimezone)}.` : ""}
           </>
         }
         actions={<ActionButton action={syncNow.bind(null, slug)} label={<><RefreshCw size={14} /> Sync now</>} pendingLabel="Syncing…" />}
       />
 
-      {!setup.complete && (
+      {!setup.complete && !liveDemo && (
         <div className="mb-4">
           <Notice tone="neutral">
             <span className="font-medium text-text">Setup: {setup.done} of 3 keys added.</span>{" "}
@@ -79,7 +81,7 @@ export default async function Overview({ params }: { params: Promise<{ zone: str
         </div>
       )}
 
-      {connections.some((c) => c.provider === "demo") && (
+      {connections.some((c) => c.provider === "demo") && !liveDemo && (
         <div className="mb-6">
           <Notice tone="accent">
             You&apos;re looking at <strong>demo data</strong> for a fictional company.{" "}

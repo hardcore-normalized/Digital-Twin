@@ -22,6 +22,7 @@ import { aiConfigFor } from "./ai";
 import { presetById } from "./ai/presets";
 import { friendlyAiError, testAi } from "./ai/llm";
 import { LOCAL_BLOCKED_MESSAGE, checkEndpoint, localEndpointsAllowed } from "./ai/endpoints";
+import { DEMO_READ_ONLY, isLiveDemo } from "./site-mode";
 
 export type ActionResult = { ok: boolean; message?: string } | null;
 
@@ -42,6 +43,7 @@ function slugify(name: string) {
 }
 
 export async function createZone(_prev: ActionResult, fd: FormData): Promise<ActionResult> {
+  if (isLiveDemo()) return fail(DEMO_READ_ONLY);
   const user = await requireUser();
   const name = str(fd, "name");
   const start = str(fd, "start"); // "demo" | "claude"
@@ -75,6 +77,7 @@ export async function createZone(_prev: ActionResult, fd: FormData): Promise<Act
 }
 
 export async function updateZone(slug: string, _prev: ActionResult, fd: FormData): Promise<ActionResult> {
+  if (isLiveDemo()) return fail(DEMO_READ_ONLY);
   const ctx = await requireManager(slug);
   const name = str(fd, "name");
   if (name.length < 2) return fail("Name is too short.");
@@ -85,6 +88,7 @@ export async function updateZone(slug: string, _prev: ActionResult, fd: FormData
 }
 
 export async function deleteZone(slug: string, _prev: ActionResult, fd: FormData): Promise<ActionResult> {
+  if (isLiveDemo()) return fail(DEMO_READ_ONLY);
   const ctx = await requireZone(slug);
   if (ctx.role !== "owner") return fail("Only the owner can delete the zone.");
   if (str(fd, "confirm") !== ctx.zone.slug) return fail(`Type "${ctx.zone.slug}" to confirm.`);
@@ -96,6 +100,7 @@ export async function deleteZone(slug: string, _prev: ActionResult, fd: FormData
 /* ───────────── Connections + sync ───────────── */
 
 export async function addClaudeConnection(slug: string, _prev: ActionResult, fd: FormData): Promise<ActionResult> {
+  if (isLiveDemo()) return fail(DEMO_READ_ONLY);
   const ctx = await requireManager(slug);
   const key = str(fd, "apiKey");
   const label = str(fd, "label") || "Claude Enterprise";
@@ -116,6 +121,7 @@ export async function addClaudeConnection(slug: string, _prev: ActionResult, fd:
 }
 
 export async function addDemoConnection(slug: string): Promise<void> {
+  if (isLiveDemo()) return;
   const ctx = await requireManager(slug);
   const db = await getDb();
   const [exists] = await db
@@ -128,6 +134,7 @@ export async function addDemoConnection(slug: string): Promise<void> {
 }
 
 export async function removeConnection(slug: string, connectionId: string): Promise<void> {
+  if (isLiveDemo()) return;
   const ctx = await requireManager(slug);
   const db = await getDb();
   const [c] = await db
@@ -139,6 +146,7 @@ export async function removeConnection(slug: string, connectionId: string): Prom
 }
 
 export async function syncNow(slug: string, _prev: ActionResult): Promise<ActionResult> {
+  if (isLiveDemo()) return fail(DEMO_READ_ONLY);
   const ctx = await requireManager(slug);
   try {
     const s = await runSync(ctx.zone.id, "manual");
@@ -192,6 +200,7 @@ function storageFromForm(
 }
 
 export async function saveStorage(slug: string, _prev: ActionResult, fd: FormData): Promise<ActionResult> {
+  if (isLiveDemo()) return fail(DEMO_READ_ONLY);
   const ctx = await requireManager(slug);
   const parsed = storageFromForm(fd);
   if (typeof parsed === "string") return fail(parsed);
@@ -245,6 +254,7 @@ export async function saveStorage(slug: string, _prev: ActionResult, fd: FormDat
 }
 
 export async function testCurrentStorage(slug: string, _prev: ActionResult): Promise<ActionResult> {
+  if (isLiveDemo()) return fail(DEMO_READ_ONLY);
   const ctx = await requireManager(slug);
   const db = await getDb();
   let error: string | null = null;
@@ -264,6 +274,7 @@ export async function testCurrentStorage(slug: string, _prev: ActionResult): Pro
 /* ───────────── AI settings ───────────── */
 
 export async function saveAiSettings(slug: string, _prev: ActionResult, fd: FormData): Promise<ActionResult> {
+  if (isLiveDemo()) return fail(DEMO_READ_ONLY);
   const ctx = await requireManager(slug);
   const zone = ctx.zone;
   const preset = presetById(str(fd, "preset"));
@@ -318,6 +329,7 @@ export async function saveAiSettings(slug: string, _prev: ActionResult, fd: Form
 }
 
 export async function resetAiModel(slug: string): Promise<void> {
+  if (isLiveDemo()) return;
   const ctx = await requireManager(slug);
   const db = await getDb();
   await db
@@ -339,6 +351,7 @@ const PersonInput = z.object({
 });
 
 export async function addPerson(slug: string, _prev: ActionResult, fd: FormData): Promise<ActionResult> {
+  if (isLiveDemo()) return fail(DEMO_READ_ONLY);
   const ctx = await requireManager(slug);
   const parsed = PersonInput.safeParse({
     email: str(fd, "email").toLowerCase(),
@@ -362,6 +375,7 @@ export async function addPerson(slug: string, _prev: ActionResult, fd: FormData)
 }
 
 export async function updatePerson(slug: string, personId: string, _prev: ActionResult, fd: FormData): Promise<ActionResult> {
+  if (isLiveDemo()) return fail(DEMO_READ_ONLY);
   const ctx = await requireManager(slug);
   const db = await getDb();
   const patch = {
@@ -395,6 +409,7 @@ async function personForEdit(slug: string, personId: string) {
 }
 
 export async function saveAbout(slug: string, personId: string, _prev: ActionResult, fd: FormData): Promise<ActionResult> {
+  if (isLiveDemo()) return fail(DEMO_READ_ONLY);
   const { ctx, db, person } = await personForEdit(slug, personId);
   const content = String(fd.get("content") ?? "");
   if (content.length > 20_000) return fail("ABOUT.md is limited to 20,000 characters.");
@@ -410,6 +425,7 @@ export async function saveAbout(slug: string, personId: string, _prev: ActionRes
 }
 
 export async function restoreVersion(slug: string, personId: string, path: string): Promise<void> {
+  if (isLiveDemo()) return;
   const { ctx, db, person } = await personForEdit(slug, personId);
   const { isHistoryPathFor } = await import("./twin/files");
   if (!isHistoryPathFor(person, "ABOUT.md", path)) throw new Error("Only ABOUT.md versions can be restored.");
@@ -422,6 +438,7 @@ export async function restoreVersion(slug: string, personId: string, path: strin
 }
 
 export async function submitCheckin(slug: string, personId: string, _prev: ActionResult, fd: FormData): Promise<ActionResult> {
+  if (isLiveDemo()) return fail(DEMO_READ_ONLY);
   const { ctx, db, person } = await personForEdit(slug, personId);
   if (ctx.self?.id !== personId) return fail("Only the person can post their own check-in.");
   const text = str(fd, "text");
@@ -443,6 +460,7 @@ export async function submitCheckin(slug: string, personId: string, _prev: Actio
 }
 
 export async function regenerateTwin(slug: string, personId: string, _prev: ActionResult): Promise<ActionResult> {
+  if (isLiveDemo()) return fail(DEMO_READ_ONLY);
   const { ctx, db, person } = await personForEdit(slug, personId);
   // Re-fold the last 120 days of events from scratch.
   await db.update(schema.events).set({ processedAt: null }).where(eq(schema.events.personId, personId));
@@ -457,6 +475,7 @@ export async function regenerateTwin(slug: string, personId: string, _prev: Acti
 /* ───────────── Access ───────────── */
 
 export async function inviteMember(slug: string, _prev: ActionResult, fd: FormData): Promise<ActionResult> {
+  if (isLiveDemo()) return fail(DEMO_READ_ONLY);
   const ctx = await requireManager(slug);
   const email = str(fd, "email").toLowerCase();
   const role = str(fd, "role") === "admin" ? "admin" : "member";
@@ -480,6 +499,7 @@ export async function inviteMember(slug: string, _prev: ActionResult, fd: FormDa
 }
 
 export async function removeAccess(slug: string, userId: string | null, inviteId: string | null): Promise<void> {
+  if (isLiveDemo()) return;
   const ctx = await requireManager(slug);
   const db = await getDb();
   if (userId) {
@@ -521,6 +541,7 @@ async function ssoFor(slug: string) {
 }
 
 export async function saveZoneSso(slug: string, _prev: ActionResult, fd: FormData): Promise<ActionResult> {
+  if (isLiveDemo()) return fail(DEMO_READ_ONLY);
   const { ctx, db, providerId, row } = await ssoFor(slug);
   const { ssoTrustedIssuers, getAuth } = await import("./auth");
   const { checkSsoDomain } = await import("./sso");
@@ -570,6 +591,7 @@ export async function saveZoneSso(slug: string, _prev: ActionResult, fd: FormDat
 }
 
 export async function verifyZoneSso(slug: string, _prev: ActionResult): Promise<ActionResult> {
+  if (isLiveDemo()) return fail(DEMO_READ_ONLY);
   const { ctx, db, providerId, row } = await ssoFor(slug);
   if (!row) return fail("Set up SSO first.");
   const { checkSsoDomain, ssoDnsRecord } = await import("./sso");
@@ -585,6 +607,7 @@ export async function verifyZoneSso(slug: string, _prev: ActionResult): Promise<
 }
 
 export async function removeZoneSso(slug: string): Promise<void> {
+  if (isLiveDemo()) return;
   const { ctx, db, providerId, row } = await ssoFor(slug);
   if (!row) return;
   await db.delete(schema.ssoProvider).where(eq(schema.ssoProvider.providerId, providerId));
@@ -595,6 +618,7 @@ export async function removeZoneSso(slug: string): Promise<void> {
 /* ───────────── Automatic sync schedule ───────────── */
 
 export async function saveSyncSchedule(slug: string, _prev: ActionResult, fd: FormData): Promise<ActionResult> {
+  if (isLiveDemo()) return fail(DEMO_READ_ONLY);
   const ctx = await requireManager(slug);
   const { isValidTime, isValidTimezone } = await import("./schedule-time");
   const enabled = fd.get("enabled") === "on";

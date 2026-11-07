@@ -9,6 +9,7 @@ import { fetchClaudeEnterprise } from "../providers/claude-enterprise";
 import { demoBatch } from "../providers/demo";
 import type { NormalizedActivity, ProviderBatch } from "../providers/types";
 import { refreshTwins } from "../twin/refresh";
+import { DEMO_ZONE_ID } from "../site-mode";
 
 type Zone = typeof schema.zones.$inferSelect;
 type Person = typeof schema.people.$inferSelect;
@@ -27,8 +28,8 @@ const SPIKE_MIN_CENTS = 500; // ignore spikes under $5
 const SPIKE_FACTOR = 3;
 
 /** Imports data from every connection of a zone, then refreshes the twins. */
-export async function runSync(zoneId: string, trigger: "manual" | "cron" | "auto" | "demo"): Promise<SyncStats> {
-  const db = await getDb();
+export async function runSync(zoneId: string, trigger: "manual" | "cron" | "auto" | "demo", database?: DB): Promise<SyncStats> {
+  const db = database ?? (await getDb());
   const [zone] = await db.select().from(schema.zones).where(eq(schema.zones.id, zoneId));
   if (!zone) throw new Error("Zone not found");
 
@@ -136,6 +137,8 @@ async function importBatch(db: DB, zone: Zone, batch: ProviderBatch, source: str
       const [created] = await db
         .insert(schema.people)
         .values({
+          // The website demo runs on several servers; the same IDs keep page URLs working on all of them.
+          ...(zone.id === DEMO_ZONE_ID ? { id: (await import("../demo-site")).stableUuid(email) } : {}),
           zoneId: zone.id,
           email,
           name: np.name ?? null,

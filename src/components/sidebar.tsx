@@ -21,6 +21,8 @@ import {
   X,
 } from "lucide-react";
 import { authClient } from "@/lib/auth-client";
+import { GITHUB_URL } from "@/lib/site-mode";
+import { GitHubIcon } from "./brand-icons";
 import { LogoMark } from "./logo";
 import { cn } from "./ui";
 
@@ -32,12 +34,15 @@ export function Sidebar({
   canManage,
   hasSelf,
   user,
+  demo = false,
 }: {
   zone: Zone;
   zones: Zone[];
   canManage: boolean;
   hasSelf: boolean;
   user: { name: string; email: string };
+  /** The website's read-only live demo: no sign-out, no new zones. */
+  demo?: boolean;
 }) {
   const pathname = usePathname();
   const router = useRouter();
@@ -105,10 +110,14 @@ export function Sidebar({
                 {z.name}
               </Link>
             ))}
-            <div className="my-1 border-t border-border" />
-            <Link href="/app/new" className="block rounded-md px-2.5 py-1.5 text-sm text-text-2 hover:bg-card-muted">
-              + New zone
-            </Link>
+            {!demo && (
+              <>
+                <div className="my-1 border-t border-border" />
+                <Link href="/app/new" className="block rounded-md px-2.5 py-1.5 text-sm text-text-2 hover:bg-card-muted">
+                  + New zone
+                </Link>
+              </>
+            )}
           </div>
         )}
       </div>
@@ -144,6 +153,25 @@ export function Sidebar({
       </div>
 
       <div className="border-t border-border px-3 py-3">
+        {demo ? (
+          <div className="space-y-2.5 px-2">
+            <div>
+              <div className="truncate text-[13px] font-medium">{user.name}</div>
+              <div className="truncate text-xs text-text-3">Demo visitor · zone owner</div>
+            </div>
+            <a
+              href={GITHUB_URL}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="flex h-8 items-center justify-center gap-2 rounded-lg bg-accent text-[13px] font-medium text-accent-ink hover:bg-accent-hover"
+            >
+              <GitHubIcon /> Download from GitHub
+            </a>
+            <Link href="/" className="block text-center text-xs text-text-3 hover:text-text">
+              Back to the website
+            </Link>
+          </div>
+        ) : (
         <div className="flex items-center gap-2 px-2">
           <Link href="/app/account" className="min-w-0 flex-1 rounded-md hover:opacity-80" title="Your account: sign-in methods and passkeys">
             <div className="truncate text-[13px] font-medium">{user.name}</div>
@@ -162,6 +190,7 @@ export function Sidebar({
             <LogOut size={16} />
           </button>
         </div>
+        )}
       </div>
     </nav>
   );

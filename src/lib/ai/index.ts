@@ -1,6 +1,7 @@
 import "server-only";
 import { decrypt } from "../crypto";
 import { presetById, type AiPreset } from "./presets";
+import { isLiveDemo } from "../site-mode";
 
 export type AiConfig = {
   preset: AiPreset;
@@ -16,6 +17,7 @@ type ZoneAi = { aiProvider: string; aiBaseUrl: string | null; aiKeyEnc: string |
 
 /** The zone's own AI settings, or the server default for Claude, or null when no model is set up. */
 export function aiConfigFor(zone: ZoneAi): AiConfig | null {
+  if (isLiveDemo()) return null; // the website demo never calls an AI model
   const preset = presetById(zone.aiProvider);
   if (preset.kind === "anthropic") {
     if (zone.aiKeyEnc) return { preset, kind: "anthropic", baseUrl: null, apiKey: decrypt(zone.aiKeyEnc), model: zone.aiModel, source: "zone" };

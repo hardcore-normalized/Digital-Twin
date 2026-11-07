@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import { GITHUB_URL } from "@/lib/site-mode";
 import { useRouter } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
 import ReactMarkdown from "react-markdown";
@@ -27,6 +28,7 @@ export function TwinChat({
   suggestions,
   aiReady,
   settingsHref,
+  demo = false,
 }: {
   zoneId: string;
   personId: string;
@@ -39,6 +41,8 @@ export function TwinChat({
   suggestions: string[];
   aiReady: boolean;
   settingsHref: string | null;
+  /** The website's live demo, where chat is off because it would need someone's AI key. */
+  demo?: boolean;
 }) {
   const router = useRouter();
   const [messages, setMessages] = useState<Msg[]>(initialMessages);
@@ -156,7 +160,15 @@ export function TwinChat({
         </div>
 
         <div className="border-t border-border p-3">
-          {!aiReady ? (
+          {demo ? (
+            <p className="px-2 py-1.5 text-sm text-text-2">
+              Twin chat runs on your own AI key, so it&apos;s turned off in this online demo.{" "}
+              <a href={GITHUB_URL} target="_blank" rel="noopener noreferrer" className="text-accent underline">
+                Download Digital Twin
+              </a>{" "}
+              and add a Claude key, any other model, or a free local model like Ollama to chat with twins.
+            </p>
+          ) : !aiReady ? (
             <p className="px-2 py-1.5 text-sm text-text-2">
               Twin chat needs an AI model.{" "}
               {settingsHref ? (

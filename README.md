@@ -4,7 +4,7 @@
 
 A free, open-source dashboard for companies that pay for AI seats (starting with **Claude Enterprise**). It splits usage and cost per person and team, and gives every person a **digital twin**: a folder of markdown files the company owner can chat with ("What has Priya been working on this week?").
 
-**Website:** [digital-twin-rose-rho.vercel.app](https://digital-twin-rose-rho.vercel.app)
+**[Website](https://digital-twin-rose-rho.vercel.app)** · **[Live demo](https://digital-twin-rose-rho.vercel.app/app/acme)** (no sign-up) · **[Install and user guide](docs/GUIDE.md)**
 
 ![Overview dashboard](docs/screenshots/overview.png)
 
@@ -32,7 +32,7 @@ Local addresses and folders are allowed in development, and in production only w
 
 ## Quick start
 
-You need [Node.js](https://nodejs.org) 20 or newer.
+You need [Node.js](https://nodejs.org) 20 or newer. New to this? Follow the step-by-step **[install and user guide](docs/GUIDE.md)**: it covers installing on macOS, Windows and Linux, getting each key, inviting your team, running it for a whole company, updating, and troubleshooting.
 
 ```bash
 git clone https://github.com/hardcore-normalized/Digital-Twin.git
@@ -127,7 +127,7 @@ The landing page's 38-second product tour is a [HyperFrames](https://hyperframes
 
 ## The public website
 
-The same codebase also serves the project's homepage in **website-only mode**: just the landing, security and docs pages, with "Download from GitHub" and "Star on GitHub" buttons. There's no database, no sign-in and no secrets. Links to the app (`/app`, `/sign-in`, `/sign-up`, `/api/*`) redirect to this repository.
+The same codebase also serves the project's homepage in **website-only mode**: the landing, security and docs pages, with "Download from GitHub" and "Star on GitHub" buttons, plus a **read-only live demo** at `/app/acme`. There's no sign-in and no secrets: each server builds the fictional Acme company in an in-memory database when it starts (about 150 ms), every visitor browses it as the zone owner, and every action that would change data is refused. Twin chat is off in the demo because it would need someone's AI key. Sign-in and other app links redirect to this repository.
 
 Website-only mode turns on automatically when the app is deployed on Vercel **without** a `DATABASE_URL`, so deploying the website is: import this repo on [vercel.com](https://vercel.com/new) and click **Deploy**, with no settings needed. Force it either way with `SITE_ONLY=true` or `SITE_ONLY=false`. The star count on the site is fetched from GitHub and refreshed hourly. `.vercelignore` keeps `docs/` (README screenshots) and `hero-video/` (the video's source) out of the upload.
 

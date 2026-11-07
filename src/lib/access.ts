@@ -6,10 +6,13 @@ import { and, eq, inArray } from "drizzle-orm";
 import { getAuth } from "./auth";
 import { getDb, schema } from "./db";
 import type { ZoneRole } from "./db/schema";
+import { isLiveDemo } from "./site-mode";
 
 export type CurrentUser = { id: string; name: string; email: string; emailVerified: boolean };
 
 export const getCurrentUser = cache(async (): Promise<CurrentUser | null> => {
+  // The website's live demo has no sign-in: every visitor is the demo zone's owner.
+  if (isLiveDemo()) return (await import("./demo-site")).DEMO_VISITOR;
   const auth = await getAuth();
   const session = await auth.api.getSession({ headers: await headers() });
   if (!session) return null;

@@ -12,6 +12,7 @@ import { daysBetween, displayName, initials, money, num, relativeDay, todayUtc }
 import { getPersonDaily, getPersonEvents, getStorageConfig, getThreadMessages, getThreads } from "@/lib/queries";
 import { getStorage } from "@/lib/storage";
 import { aiSource } from "@/lib/ai";
+import { isLiveDemo } from "@/lib/site-mode";
 import { FILE_INFO, TWIN_FILES, listHistory, readTwinFile } from "@/lib/twin/files";
 
 type Person = typeof schema.people.$inferSelect;
@@ -117,6 +118,7 @@ async function ChatTab({ ctx, person, threadId, basePath, first, isSelf }: { ctx
         suggestions={suggestions}
         aiReady={aiSource(ctx.zone) !== null}
         settingsHref={ctx.canManage ? `/app/${ctx.zone.slug}/settings/ai` : null}
+        demo={isLiveDemo()}
       />
     </>
   );

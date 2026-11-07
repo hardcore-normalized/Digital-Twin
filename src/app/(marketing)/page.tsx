@@ -6,7 +6,7 @@ import { HeroVideo } from "@/components/hero-video";
 import { ButtonLink, Card } from "@/components/ui";
 import { getStarCount } from "@/lib/github";
 import { FAQ, KEYS } from "@/lib/site";
-import { GITHUB_URL, isWebsiteOnly } from "@/lib/site-mode";
+import { DEMO_PATH, GITHUB_URL, GUIDE_URL, isWebsiteOnly } from "@/lib/site-mode";
 
 const steps = [
   {
@@ -70,6 +70,9 @@ export default async function Landing() {
             {websiteOnly ? (
               <>
                 <DownloadButton size="lg" />
+                <ButtonLink href={DEMO_PATH} size="lg" variant="secondary">
+                  Try the live demo <ArrowRight size={16} />
+                </ButtonLink>
                 <StarButton count={stars} size="lg" />
               </>
             ) : (
@@ -85,7 +88,7 @@ export default async function Landing() {
           </div>
           <p className="mt-4 text-[13px] text-text-3">
             {websiteOnly
-              ? "Free forever, MIT licensed. Runs on your own computer or server, with your own keys."
+              ? "Free forever, MIT licensed. The live demo needs no sign-up; the app runs on your own computer or server, with your own keys."
               : "Free forever. Bring your own keys. Demo workspace ready in seconds."}
           </p>
         </div>
@@ -266,8 +269,8 @@ export default async function Landing() {
             </ol>
             <div className="mt-6 flex flex-wrap gap-3">
               <DownloadButton />
-              <a href={`${GITHUB_URL}#readme`} target="_blank" rel="noopener noreferrer" className="inline-flex h-9 items-center rounded-lg px-3 text-sm text-text-2 hover:text-text">
-                Read the setup guide →
+              <a href={GUIDE_URL} target="_blank" rel="noopener noreferrer" className="inline-flex h-9 items-center rounded-lg px-3 text-sm text-text-2 hover:text-text">
+                Read the install guide →
               </a>
             </div>
           </div>
@@ -309,13 +312,14 @@ export default async function Landing() {
             <h2 className="font-serif text-3xl font-medium tracking-tight">See your company&apos;s AI clearly.</h2>
             <p className="mt-2 text-[15px] opacity-75">
               {websiteOnly
-                ? "Free and open source. Download it, try the demo company, and connect Claude Enterprise when you're ready."
+                ? "Free and open source. Click around the live demo, then download it and connect Claude Enterprise when you're ready."
                 : "Start with demo data, connect Claude Enterprise when you're ready."}
             </p>
           </div>
           {websiteOnly ? (
             <div className="flex flex-wrap gap-3">
               <DownloadButton size="lg" />
+              <ButtonLink href={DEMO_PATH} size="lg" variant="secondary">Try the live demo</ButtonLink>
               <StarButton count={stars} size="lg" className="border-transparent" />
             </div>
           ) : (

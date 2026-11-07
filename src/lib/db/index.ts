@@ -3,6 +3,7 @@ import path from "node:path";
 import { mkdirSync } from "node:fs";
 import type { NodePgDatabase } from "drizzle-orm/node-postgres";
 import * as schema from "./schema";
+import { isLiveDemo } from "../site-mode";
 
 export type DB = NodePgDatabase<typeof schema>;
 
@@ -13,6 +14,7 @@ cache.__digitalTwinDb ??= {};
 const MIGRATIONS = path.join(process.cwd(), "drizzle");
 
 async function connect(): Promise<DB> {
+  if (isLiveDemo()) return connectDemo();
   const url = process.env.DATABASE_URL;
 
   if (url) {
@@ -34,6 +36,18 @@ async function connect(): Promise<DB> {
   const db = drizzle(client, { schema });
   await migrate(db, { migrationsFolder: MIGRATIONS });
   return db as unknown as DB;
+}
+
+/** The website's live demo: an in-memory database holding the fictional Acme company. */
+async function connectDemo(): Promise<DB> {
+  const { PGlite } = await import("@electric-sql/pglite");
+  const { drizzle } = await import("drizzle-orm/pglite");
+  const { migrate } = await import("drizzle-orm/pglite/migrator");
+  const db = drizzle(new PGlite(), { schema }) as unknown as DB;
+  await migrate(db as never, { migrationsFolder: MIGRATIONS });
+  const { seedLiveDemo } = await import("../demo-site");
+  await seedLiveDemo(db);
+  return db;
 }
 
 /** Returns the database, connecting and applying migrations on first use. */
